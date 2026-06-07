@@ -1,19 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="description" content="Contact — Kobe Bryant tribute site. Send a message, share a tribute, or reach out to collaborate."/>
   <title>Contact — Kobe Bryant</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="styles.css"/>
+
+  <!-- EmailJS SDK — delivers form emails to guttatanay09@gmail.com -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    // EmailJS public key — initialise as early as possible
+    (function(){
+      emailjs.init({ publicKey: '6pM1fEUh78Ud87zxp' });
+      // ↑ Replace with your EmailJS public key from https://www.emailjs.com
+      // See setup instructions at bottom of this file
+    })();
+  </script>
 </head>
 <body>
+
 <a href="#main" class="skip-link">Skip to content</a>
-<div id="cur-dot" aria-hidden="true"></div><div id="cur-ring" aria-hidden="true"></div>
-<div id="scroll-bar" aria-hidden="true"></div>
+<div id="cur-dot" aria-hidden="true"></div>
+<div id="cur-ring" aria-hidden="true"></div>
+<div id="scroll-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+<!-- NAV -->
 <nav id="nav" aria-label="Main navigation">
-  <a href="index.html" class="nav-logo" aria-label="Home"><span class="nl-number">24</span><div class="nl-text"><span class="nl-k">KOBE</span><span class="nl-b">BRYANT</span></div></a>
+  <a href="index.html" class="nav-logo" aria-label="Kobe Bryant — Home">
+    <span class="nl-number">24</span>
+    <div class="nl-text"><span class="nl-k">KOBE</span><span class="nl-b">BRYANT</span></div>
+  </a>
   <ul id="nav-menu" role="list">
     <li><a href="index.html" class="nl">Home</a></li>
     <li><a href="about.html" class="nl">About</a></li>
@@ -21,15 +41,19 @@
     <li><a href="contact.html" class="nl active" aria-current="page">Contact</a></li>
   </ul>
   <div class="nav-right">
-    <button id="theme-btn" aria-label="Toggle theme" class="theme-btn"><span class="tb-track"><span class="tb-thumb"></span></span></button>
-    <button id="menu-btn" class="menu-btn" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+    <button id="theme-btn" aria-label="Toggle light/dark theme" class="theme-btn">
+      <span class="tb-track"><span class="tb-thumb"></span></span>
+    </button>
+    <button id="menu-btn" class="menu-btn" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span>
+    </button>
   </div>
 </nav>
 
 <main id="main">
 
 <!-- CONTACT HERO -->
-<section class="s-contact-hero" aria-label="Contact header">
+<section class="s-contact-hero" aria-label="Contact — get in touch">
   <div class="coh-bg" aria-hidden="true">
     <img src="img-hero.png" alt=""/>
     <div class="coh-overlay"></div>
@@ -40,7 +64,7 @@
   <div class="coh-content wrap">
     <div class="section-eyebrow">Get In Touch</div>
     <h1 class="coh-title">Let's<br><em>Connect</em></h1>
-    <p class="coh-sub">Questions, tributes, collaborations — we'd love to hear from you.</p>
+    <p class="coh-sub">Questions, tributes, collaborations — every message is read and appreciated.</p>
   </div>
 </section>
 
@@ -49,107 +73,495 @@
   <div class="wrap">
     <div class="contact-grid">
 
-      <!-- Info -->
+      <!-- ── LEFT: INFO ── -->
       <div class="contact-info stagger-parent">
         <div class="section-eyebrow stagger-child">Site Manager</div>
         <h2 class="ci-name stagger-child" id="contact-h">Tanay G.</h2>
-        <p class="ci-desc stagger-child">This is a tribute to the greatest basketball player of all time. Reach out with feedback, tributes, or collaboration ideas.</p>
+        <p class="ci-desc stagger-child">
+          This is a tribute to the greatest basketball player of all time. Every message is genuinely read. Reach out with feedback, tributes, memories, or collaboration ideas.
+        </p>
 
-        <div class="ci-items stagger-child">
-          <a href="mailto:guttatanay09@gmail.com" class="ci-item">
+        <div class="ci-items stagger-child" role="list">
+
+          <!-- Email — opens mail client directly -->
+          <a href="mailto:guttatanay09@gmail.com?subject=Kobe%20Bryant%20Tribute%20Site"
+             class="ci-item"
+             aria-label="Send email to guttatanay09@gmail.com"
+             role="listitem">
             <div class="ci-item-icon" aria-hidden="true">✉</div>
             <div class="ci-item-body">
-              <span class="ci-item-label">Email</span>
+              <span class="ci-item-label">Email directly</span>
               <span class="ci-item-val">guttatanay09@gmail.com</span>
             </div>
+            <div class="ci-item-arrow" aria-hidden="true">↗</div>
           </a>
-          <div class="ci-item">
+
+          <!-- Copy email button -->
+          <button class="ci-item ci-item-btn"
+                  data-copy="guttatanay09@gmail.com"
+                  aria-label="Copy email address to clipboard">
+            <div class="ci-item-icon" aria-hidden="true">📋</div>
+            <div class="ci-item-body">
+              <span class="ci-item-label">Copy email</span>
+              <span class="ci-item-val">Click to copy address</span>
+            </div>
+            <div class="ci-item-arrow" aria-hidden="true">⧉</div>
+          </button>
+
+          <!-- Share tribute -->
+          <button class="ci-item ci-item-btn"
+                  data-share
+                  aria-label="Share this tribute website">
+            <div class="ci-item-icon" aria-hidden="true">🐍</div>
+            <div class="ci-item-body">
+              <span class="ci-item-label">Share this tribute</span>
+              <span class="ci-item-val">Spread the Mamba legacy</span>
+            </div>
+            <div class="ci-item-arrow" aria-hidden="true">↗</div>
+          </button>
+
+          <!-- Location / tribute info -->
+          <div class="ci-item ci-item-static" role="listitem">
             <div class="ci-item-icon" aria-hidden="true">📍</div>
             <div class="ci-item-body">
               <span class="ci-item-label">Tribute to</span>
-              <span class="ci-item-val">Kobe Bean Bryant · #24</span>
+              <span class="ci-item-val">Kobe Bean Bryant · #8 · #24</span>
             </div>
           </div>
-          <div class="ci-item">
-            <div class="ci-item-icon" aria-hidden="true">🐍</div>
-            <div class="ci-item-body">
-              <span class="ci-item-label">Mamba Forever</span>
-              <span class="ci-item-val">1978 – 2020</span>
-            </div>
-          </div>
+
         </div>
 
-        <div class="ci-quote stagger-child">
+        <!-- Quote -->
+        <blockquote class="ci-quote stagger-child">
           <p>"If you're afraid to fail, then you're probably going to fail."</p>
           <cite>— Kobe Bryant</cite>
+        </blockquote>
+
+        <!-- EmailJS setup notice (visible to developer, hidden in production) -->
+        <div class="emailjs-setup-note" id="emailjs-notice">
+          <div class="esn-icon" aria-hidden="true">⚙</div>
+          <div class="esn-body">
+            <strong>Developer Note</strong>
+            <p>To activate email sending, follow the 3-step setup below.</p>
+            <button class="esn-toggle" id="esn-toggle" aria-expanded="false">View Setup Guide ↓</button>
+          </div>
         </div>
+
+        <div class="emailjs-setup-steps" id="esn-steps" hidden>
+          <ol>
+            <li>Go to <a href="https://www.emailjs.com" target="_blank" rel="noopener">emailjs.com</a> → create a free account</li>
+            <li>Add an <strong>Email Service</strong> (Gmail) → copy your <code>Service ID</code></li>
+            <li>Create an <strong>Email Template</strong> with variables:<br>
+              <code>{{from_name}}</code>, <code>{{from_email}}</code>,<br>
+              <code>{{subject}}</code>, <code>{{message}}</code>
+              → copy your <code>Template ID</code>
+            </li>
+            <li>Copy your <strong>Public Key</strong> from Account → API Keys</li>
+            <li>In <code>contact.html</code>, replace these 3 values:
+              <ul>
+                <li><code>user_REPLACE_WITH_YOUR_KEY</code> → your Public Key</li>
+                <li><code>YOUR_SERVICE_ID</code> → your Service ID</li>
+                <li><code>YOUR_TEMPLATE_ID</code> → your Template ID</li>
+              </ul>
+            </li>
+          </ol>
+          <p class="esn-note">Free tier: 200 emails/month. No backend needed.</p>
+        </div>
+
       </div>
 
-      <!-- Form -->
+      <!-- ── RIGHT: FORM ── -->
       <div class="contact-form-wrap">
-        <form class="contact-form" id="contact-form" novalidate aria-label="Contact form">
+
+        <!-- The form -->
+        <form class="contact-form" id="contact-form" novalidate aria-label="Send a message">
 
           <div class="form-row">
             <div class="field">
-              <input type="text" id="fname" name="fname" required autocomplete="given-name" placeholder=" "/>
+              <input type="text" id="fname" name="fname" required
+                     autocomplete="given-name" placeholder=" "
+                     aria-describedby="fname-err"/>
               <label for="fname">First Name</label>
-              <div class="field-err" role="alert" aria-live="polite">Please enter your first name</div>
+              <div class="field-err" id="fname-err" role="alert" aria-live="polite"></div>
             </div>
             <div class="field">
-              <input type="text" id="lname" name="lname" required autocomplete="family-name" placeholder=" "/>
+              <input type="text" id="lname" name="lname" required
+                     autocomplete="family-name" placeholder=" "
+                     aria-describedby="lname-err"/>
               <label for="lname">Last Name</label>
-              <div class="field-err" role="alert" aria-live="polite">Please enter your last name</div>
+              <div class="field-err" id="lname-err" role="alert" aria-live="polite"></div>
             </div>
           </div>
 
           <div class="field">
-            <input type="email" id="email" name="email" required autocomplete="email" placeholder=" "/>
+            <input type="email" id="email" name="email" required
+                   autocomplete="email" placeholder=" "
+                   aria-describedby="email-err"/>
             <label for="email">Email Address</label>
-            <div class="field-err" role="alert" aria-live="polite">Please enter a valid email</div>
+            <div class="field-err" id="email-err" role="alert" aria-live="polite"></div>
           </div>
 
           <div class="field">
-            <input type="text" id="subject" name="subject" required placeholder=" "/>
+            <input type="text" id="subject" name="subject" required
+                   placeholder=" "
+                   aria-describedby="subject-err"/>
             <label for="subject">Subject</label>
-            <div class="field-err" role="alert" aria-live="polite">Please enter a subject</div>
+            <div class="field-err" id="subject-err" role="alert" aria-live="polite"></div>
           </div>
 
           <div class="field field-textarea">
-            <textarea id="message" name="message" rows="5" required placeholder=" "></textarea>
+            <textarea id="message" name="message" rows="5" required
+                      placeholder=" "
+                      aria-describedby="message-err"></textarea>
             <label for="message">Your Message</label>
-            <div class="field-err" role="alert" aria-live="polite">Please write a message</div>
+            <div class="field-err" id="message-err" role="alert" aria-live="polite"></div>
           </div>
 
-          <button type="submit" class="btn-submit" id="submit-btn">
-            <span class="bs-text">Send Message</span>
-            <span class="bs-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </span>
-            <span class="bs-loader" aria-hidden="true"></span>
-          </button>
+          <!-- Honeypot — hidden from humans, traps bots -->
+          <div class="field-honeypot" aria-hidden="true">
+            <input type="text" name="_honey" tabindex="-1" autocomplete="off"/>
+          </div>
+
+          <div class="form-footer-row">
+            <button type="submit" class="btn-submit" id="submit-btn">
+              <span class="bs-text">Send Message</span>
+              <span class="bs-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/>
+                </svg>
+              </span>
+              <span class="bs-loader" aria-hidden="true"></span>
+            </button>
+            <p class="form-privacy">
+              Your message is sent directly to Tanay's inbox via
+              <a href="https://www.emailjs.com" target="_blank" rel="noopener">EmailJS</a>.
+              No data is stored on any server.
+            </p>
+          </div>
+
         </form>
 
-        <div class="form-success" id="form-success" aria-live="polite" role="status" hidden>
-          <div class="fs-check" aria-hidden="true">
-            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="24" cy="24" r="20"/><path d="M14 24l7 7 13-14"/></svg>
+        <!-- Success state -->
+        <div class="form-success" id="form-success" hidden aria-live="polite" role="status" tabindex="-1">
+          <div class="fs-animation" aria-hidden="true">
+            <div class="fs-ring fs-ring-1"></div>
+            <div class="fs-ring fs-ring-2"></div>
+            <div class="fs-check">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="24" cy="24" r="20"/>
+                <path d="M14 24l7 7 13-14"/>
+              </svg>
+            </div>
           </div>
-          <h3>Message Sent</h3>
-          <p>Thanks for reaching out. We'll get back to you soon.</p>
-          <button class="btn-outline" onclick="window.resetContactForm()">Send Another</button>
+          <h3>Message Sent!</h3>
+          <p>Thanks for reaching out. Tanay will reply to <strong id="fs-email-display"></strong> soon.</p>
+          <p class="fs-email-hint">
+            Didn't get a confirmation? Email directly:
+            <a href="mailto:guttatanay09@gmail.com">guttatanay09@gmail.com</a>
+          </p>
+          <button class="btn-gold" id="send-another-btn" style="margin-top:1.5rem">
+            <span>Send Another Message</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
         </div>
-      </div>
 
+        <!-- Error state (network failure) -->
+        <div class="form-error-state" id="form-error-state" hidden aria-live="polite" role="alert" tabindex="-1">
+          <div class="fer-icon" aria-hidden="true">⚠</div>
+          <h3>Message Not Sent</h3>
+          <p>Something went wrong with the email service. Please try one of these instead:</p>
+          <a href="mailto:guttatanay09@gmail.com?subject=Kobe%20Tribute%20Site"
+             class="btn-gold" style="margin-top:1rem;display:inline-flex">
+            <span>Open Email App</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+              <path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/>
+            </svg>
+          </a>
+          <button class="btn-outline" id="try-again-btn" style="margin-top:.75rem">Try Again</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAMBA QUOTE FOOTER BAND -->
+<section class="s-quote reveal-section" aria-label="Quote from Kobe Bryant" style="padding:5rem 0">
+  <div class="quote-scene" aria-hidden="true"><div class="qs-bg"></div><div class="qs-grain"></div></div>
+  <div class="wrap">
+    <div class="quote-inner stagger-parent">
+      <div class="q-mark" aria-hidden="true">"</div>
+      <blockquote>
+        <p>If you're afraid to fail, then you're probably going to fail.</p>
+      </blockquote>
+      <cite>— Kobe Bryant</cite>
     </div>
   </div>
 </section>
 
 </main>
 
-<footer class="site-footer"><div class="wrap"><div class="footer-grid">
-  <div class="footer-brand"><span class="fb-num" aria-hidden="true">24</span><div class="fb-text"><span class="fb-name">KOBE BEAN BRYANT</span><span class="fb-dates">August 23, 1978 — January 26, 2020</span></div></div>
-  <nav class="footer-nav" aria-label="Footer links"><a href="index.html">Home</a><a href="about.html">About</a><a href="now.html">Legacy</a><a href="contact.html">Contact</a></nav>
-  <p class="footer-copy">© TanayG. 2025 &nbsp;·&nbsp; In loving memory of Kobe &amp; Gianna Bryant</p>
-</div></div></footer>
-<button id="back-top" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<!-- FOOTER -->
+<footer class="site-footer" aria-label="Site footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="fb-num" aria-hidden="true">24</span>
+        <div class="fb-text">
+          <span class="fb-name">KOBE BEAN BRYANT</span>
+          <span class="fb-dates">August 23, 1978 — January 26, 2020</span>
+        </div>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="now.html">Legacy</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+      <div class="footer-mamba">
+        <span class="fm-text">MAMBA FOREVER</span>
+        <span class="fm-nums" aria-hidden="true">8 · 24</span>
+      </div>
+      <p class="footer-copy">
+        © TanayG. 2025 &nbsp;·&nbsp; Tribute website. Not affiliated with the Bryant family or NBA.<br>
+        In loving memory of Kobe &amp; Gianna Bryant 🐍
+      </p>
+    </div>
+  </div>
+</footer>
+
+<button id="back-top" aria-label="Scroll back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+    <path d="M12 19V5M5 12l7-7 7 7"/>
+  </svg>
+</button>
+
 <script src="main.js"></script>
-</body></html>
+<script>
+/* ══════════════════════════════════════════════════════════
+   CONTACT PAGE — COMPLETE FUNCTIONALITY
+   ══════════════════════════════════════════════════════════ */
+
+/* ── EmailJS Config — replace these 3 values ── */
+const EMAILJS_SERVICE_ID  = 'service_6fedwgn';   // from emailjs.com dashboard
+const EMAILJS_TEMPLATE_ID = 'template_blkuavt';  // your email template ID
+/* Public key already set in <head> above      */
+
+/* ── FORM ELEMENTS ── */
+const form        = document.getElementById('contact-form');
+const submitBtn   = document.getElementById('submit-btn');
+const successEl   = document.getElementById('form-success');
+const errorEl     = document.getElementById('form-error-state');
+const sendAnother = document.getElementById('send-another-btn');
+const tryAgain    = document.getElementById('try-again-btn');
+
+/* ── VALIDATION RULES ── */
+const rules = {
+  fname:   { test: v => v.trim().length >= 1,             msg: 'Please enter your first name.' },
+  lname:   { test: v => v.trim().length >= 1,             msg: 'Please enter your last name.' },
+  email:   { test: v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()), msg: 'Please enter a valid email address.' },
+  subject: { test: v => v.trim().length >= 2,             msg: 'Please enter a subject (at least 2 characters).' },
+  message: { test: v => v.trim().length >= 10,            msg: 'Please write a message (at least 10 characters).' }
+};
+
+function getField(name) {
+  return document.getElementById(name === 'fname' ? 'fname' : name);
+}
+
+function validateField(name) {
+  const input = document.getElementById(name) || document.querySelector(`[name="${name}"]`);
+  const errEl = document.getElementById(name + '-err');
+  if (!input || !rules[name]) return true;
+
+  const valid = rules[name].test(input.value);
+  const wrap  = input.closest('.field');
+
+  wrap.classList.toggle('has-error', !valid);
+  wrap.classList.toggle('has-ok',     valid);
+
+  if (errEl) {
+    errEl.textContent = valid ? '' : rules[name].msg;
+  }
+  return valid;
+}
+
+function validateAll() {
+  return Object.keys(rules).map(validateField).every(Boolean);
+}
+
+/* ── LIVE VALIDATION ── */
+Object.keys(rules).forEach(name => {
+  const input = document.getElementById(name);
+  if (!input) return;
+  input.addEventListener('blur',  () => validateField(name));
+  input.addEventListener('input', () => {
+    if (input.closest('.field').classList.contains('has-error')) validateField(name);
+  });
+});
+
+/* ── AUTO-GROW TEXTAREA ── */
+const textarea = document.getElementById('message');
+if (textarea) {
+  textarea.addEventListener('input', () => {
+    textarea.style.height = 'auto';
+    textarea.style.height = Math.min(textarea.scrollHeight, 320) + 'px';
+  });
+}
+
+/* ── STATES ── */
+function showState(which) {
+  form.classList.remove('hidden');
+  successEl.setAttribute('hidden', '');
+  errorEl.setAttribute('hidden', '');
+
+  if (which === 'success') {
+    form.classList.add('hidden');
+    successEl.removeAttribute('hidden');
+    successEl.focus();
+  } else if (which === 'error') {
+    form.classList.add('hidden');
+    errorEl.removeAttribute('hidden');
+    errorEl.focus();
+  }
+}
+
+function resetForm() {
+  form.reset();
+  document.querySelectorAll('.field').forEach(w => w.classList.remove('has-error', 'has-ok'));
+  document.querySelectorAll('.field-err').forEach(e => e.textContent = '');
+  if (textarea) textarea.style.height = '';
+  submitBtn.classList.remove('loading');
+  submitBtn.disabled = false;
+  showState('form');
+  document.getElementById('fname').focus();
+}
+
+/* ── SUBMIT HANDLER ── */
+if (form) {
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    /* Bot trap */
+    const honey = form.querySelector('[name="_honey"]');
+    if (honey && honey.value) return; // silently abort for bots
+
+    if (!validateAll()) {
+      const firstErr = form.querySelector('.field.has-error input, .field.has-error textarea');
+      if (firstErr) firstErr.focus();
+      return;
+    }
+
+    /* Loading state */
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true;
+
+    /* Build template params */
+    const params = {
+      from_name:    (document.getElementById('fname').value.trim() + ' ' + document.getElementById('lname').value.trim()).trim(),
+      from_email:   document.getElementById('email').value.trim(),
+      subject:      document.getElementById('subject').value.trim(),
+      message:      document.getElementById('message').value.trim(),
+      reply_to:     document.getElementById('email').value.trim(),
+      to_name:      'Tanay G.',
+      sent_from:    window.location.href,
+      sent_at:      new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+    };
+
+    try {
+      /* Check if EmailJS is configured */
+      const isConfigured = (
+        EMAILJS_SERVICE_ID  !== 'YOUR_SERVICE_ID' &&
+        EMAILJS_TEMPLATE_ID !== 'YOUR_TEMPLATE_ID'
+      );
+
+      if (isConfigured && typeof emailjs !== 'undefined') {
+        /* ── REAL EMAIL SEND via EmailJS ── */
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
+      } else {
+        /* ── FALLBACK: mailto deep-link (always works, no setup needed) ── */
+        const body = encodeURIComponent(
+          `Name: ${params.from_name}\nEmail: ${params.from_email}\n\n${params.message}`
+        );
+        const mailtoUrl = `mailto:guttatanay09@gmail.com?subject=${encodeURIComponent(params.subject)}&body=${body}`;
+        window.open(mailtoUrl, '_blank');
+        // Simulate delay for UX
+        await new Promise(r => setTimeout(r, 800));
+      }
+
+      /* Show success */
+      const emailDisplay = document.getElementById('fs-email-display');
+      if (emailDisplay) emailDisplay.textContent = params.from_email;
+      showState('success');
+
+      if (typeof showToast === 'function') {
+        showToast('Message sent! 🐍 Tanay will reply soon.', 4000);
+      }
+
+    } catch (err) {
+      console.error('EmailJS error:', err);
+      submitBtn.classList.remove('loading');
+      submitBtn.disabled = false;
+      showState('error');
+    }
+  });
+}
+
+/* ── SEND ANOTHER / TRY AGAIN ── */
+if (sendAnother) sendAnother.addEventListener('click', resetForm);
+if (tryAgain)    tryAgain.addEventListener('click',    resetForm);
+window.resetContactForm = resetForm;
+
+/* ── COPY EMAIL ── */
+document.querySelectorAll('[data-copy]').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const text = btn.dataset.copy;
+    try {
+      await navigator.clipboard.writeText(text);
+      const valEl = btn.querySelector('.ci-item-val');
+      const orig  = valEl ? valEl.textContent : '';
+      if (valEl) valEl.textContent = 'Copied! ✓';
+      btn.style.borderColor = 'var(--gold)';
+      if (typeof showToast === 'function') showToast('Email copied to clipboard! ✓');
+      setTimeout(() => {
+        if (valEl) valEl.textContent = orig;
+        btn.style.borderColor = '';
+      }, 2500);
+    } catch {
+      /* Clipboard API not available — show the email instead */
+      if (typeof showToast === 'function') showToast(`Email: ${text}`);
+    }
+  });
+});
+
+/* ── EMAILJS SETUP NOTE TOGGLE ── */
+const esnToggle = document.getElementById('esn-toggle');
+const esnSteps  = document.getElementById('esn-steps');
+if (esnToggle && esnSteps) {
+  esnToggle.addEventListener('click', () => {
+    const hidden = esnSteps.hasAttribute('hidden');
+    if (hidden) {
+      esnSteps.removeAttribute('hidden');
+      esnToggle.textContent = 'Hide Setup Guide ↑';
+      esnToggle.setAttribute('aria-expanded', 'true');
+    } else {
+      esnSteps.setAttribute('hidden', '');
+      esnToggle.textContent = 'View Setup Guide ↓';
+      esnToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
+/* ── Hide setup note if emailjs is fully configured ── */
+(function checkConfig() {
+  const notice = document.getElementById('emailjs-notice');
+  if (!notice) return;
+  if (EMAILJS_SERVICE_ID !== 'YOUR_SERVICE_ID' && EMAILJS_TEMPLATE_ID !== 'YOUR_TEMPLATE_ID') {
+    notice.style.display = 'none';
+    if (esnSteps) esnSteps.style.display = 'none';
+  }
+})();
+</script>
+</body>
+</html>
