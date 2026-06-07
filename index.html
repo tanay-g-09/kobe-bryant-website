@@ -4,27 +4,31 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <meta name="description" content="Kobe Bryant — The Black Mamba. A cinematic tribute to twenty years, five championships, and one obsession with greatness."/>
-  <meta property="og:title" content="Kobe Bryant — The Black Mamba"/>
-  <meta property="og:description" content="A cinematic tribute to twenty years, five championships, and one obsession with greatness."/>
-  <meta name="theme-color" content="#080808"/>
   <title>KOBE BRYANT — The Black Mamba</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="styles.css"/>
+  <!-- GSAP 3 + Page Transition -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
+  <script>
+    // Register MotionPathPlugin early
+    if(typeof gsap !== "undefined" && typeof MotionPathPlugin !== "undefined"){
+      gsap.registerPlugin(MotionPathPlugin);
+    }
+  </script>
 </head>
 <body>
 
 <a href="#main" class="skip-link">Skip to content</a>
 
 <!-- LOADER -->
-<div id="loader" aria-label="Loading" role="status">
+<div id="loader" aria-hidden="true">
   <div class="ldr-bg"></div>
-  <div class="ldr-body">
-    <div class="ldr-jersey">
-      <div class="ldr-num">24</div>
-      <div class="ldr-name">BRYANT</div>
-    </div>
+  <div class="ldr-content">
+    <div class="ldr-num">24</div>
+    <div class="ldr-name">KOBE BRYANT</div>
     <div class="ldr-bar"><div class="ldr-fill"></div></div>
     <div class="ldr-years">1978 — 2020</div>
   </div>
@@ -33,16 +37,13 @@
 <!-- CURSOR -->
 <div id="cur-dot" aria-hidden="true"></div>
 <div id="cur-ring" aria-hidden="true"></div>
-<div id="scroll-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Reading progress"></div>
+<div id="scroll-bar" aria-hidden="true"></div>
 
 <!-- NAV -->
 <nav id="nav" aria-label="Main navigation">
-  <a href="index.html" class="nav-logo" aria-label="Kobe Bryant — Home">
-    <span class="nl-number">24</span>
-    <div class="nl-text">
-      <span class="nl-k">KOBE</span>
-      <span class="nl-b">BRYANT</span>
-    </div>
+  <a href="index.html" class="nav-logo" aria-label="Home">
+    <span class="nl-num">24</span>
+    <div class="nl-text"><span class="nl-k">KOBE</span><span class="nl-b">BRYANT</span></div>
   </a>
   <ul id="nav-menu" role="list">
     <li><a href="index.html" class="nl active" aria-current="page">Home</a></li>
@@ -51,7 +52,7 @@
     <li><a href="contact.html" class="nl">Contact</a></li>
   </ul>
   <div class="nav-right">
-    <button id="theme-btn" aria-label="Toggle light/dark theme" class="theme-btn">
+    <button id="theme-btn" class="theme-btn" aria-label="Toggle theme">
       <span class="tb-track"><span class="tb-thumb"></span></span>
     </button>
     <button id="menu-btn" class="menu-btn" aria-label="Open menu" aria-expanded="false">
@@ -62,113 +63,96 @@
 
 <main id="main">
 
-<!-- ══════════════════════════════════
-     § HERO
-══════════════════════════════════ -->
-<section id="hero" class="s-hero" aria-label="Kobe Bryant — The Black Mamba">
-  <canvas id="hero-particles" class="hero-particles" aria-hidden="true"></canvas>
-  <div class="hero-layers" aria-hidden="true">
-    <div class="hl-img">
-      <img src="img-hero.png" alt="" class="hero-photo" fetchpriority="high" decoding="sync"/>
+<!-- ═══ HERO ═══════════════════════════════════════════ -->
+<section id="hero" class="s-hero" aria-label="Kobe Bryant — Hero">
+  <canvas id="hero-particles" aria-hidden="true"></canvas>
+
+  <!-- Layered cinematic bg — SPOTLIGHT image: alone on court, jerseys retired rafters -->
+  <div class="hero-scene" aria-hidden="true">
+    <div class="hero-img-layer">
+      <img src="img-spotlight.png" alt="" class="hero-bg-img" id="hero-bg-img" fetchpriority="high" decoding="sync"/>
     </div>
-    <div class="hl-grain"></div>
-    <div class="hl-vignette"></div>
-    <div class="hl-gradient"></div>
-    <div class="hl-scanlines"></div>
-    <div class="hl-bar top"></div>
-    <div class="hl-bar bottom"></div>
+    <div class="hero-grain"></div>
+    <div class="hero-vignette"></div>
+    <div class="hero-grad"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-bar top"></div>
+    <div class="hero-bar bottom"></div>
   </div>
 
-  <div class="hero-watermark" aria-hidden="true">24</div>
+  <div class="hero-wm" aria-hidden="true">24</div>
 
   <div class="hero-content">
-    <div class="hc-meta">
-      <span class="hc-rule"></span>
-      <span class="hc-eyebrow">Los Angeles Lakers &nbsp;·&nbsp; 1996 – 2016</span>
-      <span class="hc-rule"></span>
+    <div class="hero-eyebrow">
+      <div class="heb-line"></div>
+      <span>Los Angeles Lakers &nbsp;·&nbsp; 1996 – 2016</span>
+      <div class="heb-line"></div>
     </div>
-    <h1 class="hero-name" aria-label="Kobe Bryant">
-      <span class="hn-line" id="hn-kobe">KOBE</span>
-      <span class="hn-line hn-accent" id="hn-bryant">BRYANT</span>
+    <h1 class="hero-title" aria-label="Kobe Bryant">
+      <span class="ht-line" id="ht-kobe">KOBE</span>
+      <span class="ht-line ht-gold" id="ht-bryant">BRYANT</span>
     </h1>
-    <p class="hero-mamba">The Black Mamba</p>
-    <p class="hero-tagline">Twenty years.&ensp;Five championships.<br>One obsession with greatness.</p>
+    <p class="hero-sub">The Black Mamba</p>
+    <p class="hero-desc">Twenty years.&ensp;Five championships.<br>One obsession with greatness.</p>
     <div class="hero-btns">
       <a href="about.html" class="btn-gold">
         <span>Explore Legacy</span>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
       <a href="#stats" class="btn-outline">By the Numbers</a>
-      <button class="btn-share-hero" data-share aria-label="Share this tribute">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+      <button class="btn-ghost-icon" data-share aria-label="Share this tribute">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
         Share
       </button>
     </div>
   </div>
 
-  <!-- Hero ticker -->
+  <!-- Ticker -->
   <div class="hero-ticker" aria-label="Career highlights">
-    <div class="ticker-inner">
-      <div class="ticker-track" aria-hidden="true">
-        <span>5× NBA Champion</span><span class="tk-dot">·</span>
-        <span>81 Points — One Game</span><span class="tk-dot">·</span>
-        <span>18× All-Star Selection</span><span class="tk-dot">·</span>
-        <span>MVP 2007–08</span><span class="tk-dot">·</span>
-        <span>33,643 Career Points</span><span class="tk-dot">·</span>
-        <span>2× Finals MVP</span><span class="tk-dot">·</span>
-        <span>2× Olympic Gold Medal</span><span class="tk-dot">·</span>
-        <span>4× All-Star Game MVP</span><span class="tk-dot">·</span>
-        <span>Academy Award Winner</span><span class="tk-dot">·</span>
-        <span>Basketball Hall of Fame 2020</span><span class="tk-dot">·</span>
-        <span>11× First-Team All-NBA</span><span class="tk-dot">·</span>
-        <span>Mamba Forever</span><span class="tk-dot">·</span>
-        <!-- duplicate -->
-        <span>5× NBA Champion</span><span class="tk-dot">·</span>
-        <span>81 Points — One Game</span><span class="tk-dot">·</span>
-        <span>18× All-Star Selection</span><span class="tk-dot">·</span>
-        <span>MVP 2007–08</span><span class="tk-dot">·</span>
-        <span>33,643 Career Points</span><span class="tk-dot">·</span>
-        <span>2× Finals MVP</span><span class="tk-dot">·</span>
-        <span>2× Olympic Gold Medal</span><span class="tk-dot">·</span>
-        <span>4× All-Star Game MVP</span><span class="tk-dot">·</span>
-        <span>Academy Award Winner</span><span class="tk-dot">·</span>
-        <span>Basketball Hall of Fame 2020</span><span class="tk-dot">·</span>
-        <span>11× First-Team All-NBA</span><span class="tk-dot">·</span>
-        <span>Mamba Forever</span><span class="tk-dot">·</span>
-      </div>
+    <div class="ticker-track" aria-hidden="true">
+      <span>5× NBA Champion</span><b>·</b><span>81 Points — One Game</span><b>·</b>
+      <span>18× All-Star</span><b>·</b><span>MVP 2007–08</span><b>·</b>
+      <span>33,643 Career Points</span><b>·</b><span>2× Finals MVP</span><b>·</b>
+      <span>2× Olympic Gold</span><b>·</b><span>4× All-Star Game MVP</span><b>·</b>
+      <span>Academy Award Winner</span><b>·</b><span>Hall of Fame 2020</span><b>·</b>
+      <span>Mamba Forever 🐍</span><b>·</b>
+      <!-- duplicate for seamless loop -->
+      <span>5× NBA Champion</span><b>·</b><span>81 Points — One Game</span><b>·</b>
+      <span>18× All-Star</span><b>·</b><span>MVP 2007–08</span><b>·</b>
+      <span>33,643 Career Points</span><b>·</b><span>2× Finals MVP</span><b>·</b>
+      <span>2× Olympic Gold</span><b>·</b><span>4× All-Star Game MVP</span><b>·</b>
+      <span>Academy Award Winner</span><b>·</b><span>Hall of Fame 2020</span><b>·</b>
+      <span>Mamba Forever 🐍</span><b>·</b>
     </div>
   </div>
 
-  <!-- Scroll cue -->
   <div class="hero-scroll" aria-hidden="true">
     <div class="hs-mouse"><div class="hs-wheel"></div></div>
-    <span class="hs-label">Scroll</span>
+    <span>Scroll</span>
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     § INTRO — SPLIT SCREEN
-══════════════════════════════════ -->
-<section id="intro" class="s-intro reveal-section" aria-labelledby="intro-h">
-  <div class="intro-left">
-    <div class="intro-sticky">
+<!-- ═══ INTRO SPLIT — ESPN cover left, text right ═══════ -->
+<section id="intro" class="s-intro" aria-labelledby="intro-h">
+  <div class="intro-img-col">
+    <div class="intro-img-sticky">
       <div class="intro-img-frame">
-        <img src="img-espn.png" alt="Kobe Bryant on ESPN Magazine cover — NBA Finals 2009 preview, number 24 Lakers jersey, walking through the tunnel with championship banners above" loading="lazy" class="intro-img"/>
-        <div class="intro-img-label">
-          <span class="iil-year">ESPN</span>
-          <span class="iil-caption">NBA Finals 2009</span>
+        <img src="img-espn.png" alt="Kobe Bryant — ESPN Magazine cover, NBA Finals 2009: He's Back" loading="lazy" class="intro-img"/>
+        <div class="intro-img-badge">
+          <span class="iib-top">ESPN</span>
+          <span class="iib-bot">NBA Finals 2009</span>
         </div>
         <div class="intro-img-glow" aria-hidden="true"></div>
       </div>
     </div>
   </div>
-  <div class="intro-right">
-    <div class="ir-inner stagger-parent">
+  <div class="intro-text-col">
+    <div class="intro-inner stagger-parent">
       <div class="section-eyebrow stagger-child">The Man Behind the Mamba</div>
       <h2 class="section-title stagger-child" id="intro-h">A Legend<br><em>Forged in Fire</em></h2>
-      <p class="body-copy stagger-child">Kobe Bryant entered the NBA straight from high school at 17 years old. Most expected him to struggle. Instead, he spent the next twenty years proving that greatness is never given — only earned, rep by rep, before the sun rose.</p>
+      <p class="body-copy stagger-child">Kobe Bryant entered the NBA straight from high school at 17 years old. Most expected him to struggle. He spent the next twenty years proving that greatness is never given — only earned, rep by rep, before the sun rose.</p>
       <p class="body-copy stagger-child">His obsession with mastery — 4 AM workouts, frame-by-frame film study, practicing the same post move 500 times until it was involuntary — didn't just make him great. It redefined what greatness could look like.</p>
-      <p class="body-copy stagger-child">The Mamba Mentality wasn't a brand. It was a philosophy lived at the highest possible intensity, every single day, for two decades.</p>
+      <p class="body-copy stagger-child">The Mamba Mentality wasn't a brand. It was a philosophy lived at the highest possible intensity, every single day, for two decades straight.</p>
       <a href="about.html" class="text-arrow stagger-child">
         Read his full story
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -177,505 +161,287 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     § STATISTICS (Updated 2024)
-══════════════════════════════════ -->
-<section id="stats" class="s-stats reveal-section" aria-labelledby="stats-h">
-  <div class="stats-bg-glow" aria-hidden="true"></div>
+<!-- ═══ CINEMATIC FULL-BLEED — Thank You Kobe ═══════════ -->
+<section class="s-fullbleed" aria-label="Thank You Kobe — farewell night">
+  <div class="fb-img-wrap">
+    <img src="img-thankyou.png" alt="Kobe Bryant touching his chest in gratitude on his final night — #ThankYouKobe scoreboard behind him" loading="lazy" class="fb-img"/>
+  </div>
+  <div class="fb-overlay" aria-hidden="true"></div>
+  <div class="fb-content">
+    <div class="fbc-eyebrow">April 13, 2016</div>
+    <div class="fbc-title">MAMBA OUT</div>
+    <div class="fbc-sub">60 points. Final game. Forever.</div>
+  </div>
+</section>
+
+<!-- ═══ STATS ════════════════════════════════════════════ -->
+<section id="stats" class="s-stats" aria-labelledby="stats-h">
+  <div class="stats-glow" aria-hidden="true"></div>
   <div class="wrap">
     <header class="section-header center stagger-parent">
       <div class="section-eyebrow stagger-child">Career Statistics — Final</div>
       <h2 class="section-title stagger-child" id="stats-h">By The<br><em>Numbers</em></h2>
     </header>
     <div class="stats-grid">
-      <div class="stat-card sc-big">
-        <div class="sc-orbit" aria-hidden="true"></div>
-        <span class="sc-num" data-target="33643" aria-label="33,643 career points">0</span>
+      <div class="stat-card" data-fact="If Kobe scored 25 pts every game across 20 seasons that's 33,250. He actually got 33,643.">
+        <div class="sc-pulse" aria-hidden="true"></div>
+        <span class="sc-num" data-target="33643">0</span>
         <span class="sc-label">Career Points</span>
-        <span class="sc-note">#4 All-Time · 20 Seasons</span>
+        <span class="sc-note">#4 All-Time</span>
       </div>
-      <div class="stat-card">
-        <div class="sc-orbit" aria-hidden="true"></div>
-        <span class="sc-num" data-target="5" aria-label="5 championships">0</span>
+      <div class="stat-card" data-fact="5 rings across three different decades — 2000s dynasty, 2009, and 2010. The definition of sustained greatness.">
+        <div class="sc-pulse" aria-hidden="true"></div>
+        <span class="sc-num" data-target="5">0</span>
         <span class="sc-label">Championships</span>
         <span class="sc-note">2000, '01, '02, '09, '10</span>
       </div>
-      <div class="stat-card sc-featured">
-        <div class="sc-orbit" aria-hidden="true"></div>
-        <span class="sc-num" data-target="81" aria-label="81 points in one game">0</span>
+      <div class="stat-card stat-card-hero" data-fact="81 points vs Toronto Raptors, Jan 22 2006. He scored 55 in the second half alone — more than most players score in full games.">
+        <div class="sc-pulse" aria-hidden="true"></div>
+        <span class="sc-num" data-target="81">0</span>
         <span class="sc-label">Points, One Game</span>
         <span class="sc-note">2nd in NBA History · Jan 22, 2006</span>
       </div>
-      <div class="stat-card">
-        <div class="sc-orbit" aria-hidden="true"></div>
-        <span class="sc-num" data-target="18" aria-label="18 All-Star selections">0</span>
+      <div class="stat-card" data-fact="18 consecutive All-Star selections — every single season from 1998 to 2016. Never missed once.">
+        <div class="sc-pulse" aria-hidden="true"></div>
+        <span class="sc-num" data-target="18">0</span>
         <span class="sc-label">All-Star Selections</span>
         <span class="sc-note">18 Consecutive Years</span>
       </div>
-      <div class="stat-card">
-        <div class="sc-orbit" aria-hidden="true"></div>
-        <span class="sc-num" data-target="25" aria-label="25 points per game career average">0</span>
+      <div class="stat-card" data-fact="25.0 PPG career average — the 6th highest in NBA history, behind only legends like MJ and Wilt.">
+        <div class="sc-pulse" aria-hidden="true"></div>
+        <span class="sc-num" data-target="25">0</span>
         <span class="sc-label">Career PPG</span>
         <span class="sc-note">6th Highest Average Ever</span>
       </div>
-      <div class="stat-card">
-        <div class="sc-orbit" aria-hidden="true"></div>
-        <span class="sc-num" data-target="6306" aria-label="6,306 career assists">0</span>
+      <div class="stat-card" data-fact="6,306 career assists — 4.7 per game. A scoring machine who elevated everyone around him.">
+        <div class="sc-pulse" aria-hidden="true"></div>
+        <span class="sc-num" data-target="6306">0</span>
         <span class="sc-label">Career Assists</span>
         <span class="sc-note">4.7 APG Average</span>
       </div>
     </div>
-
-    <!-- Mini stats row -->
-    <div class="stats-mini-row">
-      <div class="smr-item"><span class="smr-val">7,047</span><span class="smr-label">Career Rebounds</span></div>
-      <div class="smr-item"><span class="smr-val">1,944</span><span class="smr-label">Career Steals</span></div>
-      <div class="smr-item"><span class="smr-val">640</span><span class="smr-label">Career Blocks</span></div>
-      <div class="smr-item"><span class="smr-val">1,346</span><span class="smr-label">Games Played</span></div>
-      <div class="smr-item"><span class="smr-val">45.0%</span><span class="smr-label">Field Goal %</span></div>
-      <div class="smr-item"><span class="smr-val">82.7%</span><span class="smr-label">Free Throw %</span></div>
+    <div class="stats-mini">
+      <div class="sm-item"><span class="sm-v">7,047</span><span class="sm-l">Rebounds</span></div>
+      <div class="sm-item"><span class="sm-v">1,944</span><span class="sm-l">Steals</span></div>
+      <div class="sm-item"><span class="sm-v">640</span><span class="sm-l">Blocks</span></div>
+      <div class="sm-item"><span class="sm-v">1,346</span><span class="sm-l">Games Played</span></div>
+      <div class="sm-item"><span class="sm-v">45.0%</span><span class="sm-l">Field Goal %</span></div>
+      <div class="sm-item"><span class="sm-v">82.7%</span><span class="sm-l">Free Throw %</span></div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     § PHOTO GALLERY — FULL BLEED
-══════════════════════════════════ -->
-<section id="gallery" class="s-gallery reveal-section" aria-label="Career photo gallery">
+<!-- ═══ PHOTO GALLERY — 9-grid collage ══════════════════ -->
+<section id="gallery" class="s-gallery" aria-label="Career moments — photo gallery">
   <div class="gallery-label" aria-hidden="true">
     <span>MOMENTS</span><span>OF</span><span>GREATNESS</span>
   </div>
-  <div class="gallery-img-full">
-    <img src="img-collage.png" alt="Ten defining career photographs: Kobe Bryant raising his hand farewell, biting his jersey, walking through the Lakers tunnel, intense close-up face, dunking in purple jersey, roaring celebration, confetti championship, meditative focus, teammate embrace, and lone figure on court" loading="lazy"/>
-    <div class="gallery-overlay"></div>
+  <div class="gallery-img-wrap" id="gallery-img-wrap">
+    <img src="img-grid9.png"
+         alt="Nine defining career photographs: Kobe pointing to the sky, holding the All-Star MVP trophy, intense close-up portrait, Team USA #10, biting the Lakers jersey, game-winning celebration, championship confetti back view, meditative black jersey, and laughing with Stephen Curry at All-Star"
+         loading="lazy" class="gallery-img" id="gallery-main-img"/>
+    <div class="gallery-overlay" aria-hidden="true"></div>
   </div>
   <div class="gallery-caption">
-    <span class="gc-num">10</span>
-    <span class="gc-text">Defining career photographs across twenty seasons of greatness — farewell, celebration, focus, and fire.</span>
+    <span class="gc-num">9</span>
+    <span class="gc-text">Nine defining moments — champion, Olympian, artist, father. A career like no other.</span>
+    <button class="gc-expand" id="gc-expand" aria-label="View full-size gallery image">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+      Expand
+    </button>
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     § TIMELINE
-══════════════════════════════════ -->
-<section id="timeline" class="s-timeline reveal-section" aria-labelledby="tl-h">
+<!-- ═══ DIPTYCH — Locker Room + Celtics Championship ════ -->
+<section class="s-diptych" aria-label="Behind the scenes and championship moments">
+  <div class="dip-panel" data-label="DISCIPLINE" data-caption="The locker room. Alone with his thoughts. The &quot;DISCIPLINE&quot; sign says everything.">
+    <img src="img-locker.png" alt="Kobe Bryant seated alone in the Lakers locker room in golden warmup suit, head bowed in quiet focus — a DISCIPLINE poster on the wall, his #24 jersey hanging behind him" loading="lazy"/>
+    <div class="dip-overlay" aria-hidden="true"></div>
+    <div class="dip-text">
+      <div class="dip-label">DISCIPLINE</div>
+      <div class="dip-caption">Every champion begins alone in a quiet room.</div>
+    </div>
+  </div>
+  <div class="dip-panel" data-label="CHAMPION" data-caption="Game 7. Boston Celtics. The greatest rivalry in basketball. Kobe won.">
+    <img src="img-celtics.png" alt="Kobe Bryant in purple Lakers jersey #24 fist-pump celebration against the Boston Celtics with teammates Ron Artest and Pau Gasol cheering — the 2010 NBA Finals" loading="lazy"/>
+    <div class="dip-overlay" aria-hidden="true"></div>
+    <div class="dip-text">
+      <div class="dip-label">CHAMPION</div>
+      <div class="dip-caption">Game 7. Boston. The ultimate stage. Won.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TIMELINE ══════════════════════════════════════════ -->
+<section id="timeline" class="s-timeline" aria-labelledby="tl-h">
   <div class="wrap">
     <header class="section-header stagger-parent">
       <div class="section-eyebrow stagger-child">Achievement Timeline</div>
       <h2 class="section-title stagger-child" id="tl-h">The Road to<br><em>Greatness</em></h2>
     </header>
     <ol class="tl-list" aria-label="Kobe Bryant career timeline">
-      <li class="tl-item">
-        <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div></div>
-        <time class="tl-year" datetime="1996">1996</time>
-        <div class="tl-body">
-          <h3>Drafted 13th Overall</h3>
-          <p>Selected by Charlotte, immediately traded to the Lakers. At 17 — the youngest NBA player since 1975. His coach said he already saw the game three passes ahead.</p>
-        </div>
-      </li>
-      <li class="tl-item">
-        <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div></div>
-        <time class="tl-year" datetime="1997">1997</time>
-        <div class="tl-body">
-          <h3>Slam Dunk Champion</h3>
-          <p>Won the NBA Slam Dunk Contest at 18 — the youngest winner ever. The league was beginning to realize what they were watching.</p>
-        </div>
-      </li>
-      <li class="tl-item">
-        <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div></div>
-        <time class="tl-year" datetime="1998">1998</time>
-        <div class="tl-body">
-          <h3>Youngest All-Star Starter</h3>
-          <p>Named All-Star starter at 19 — the youngest in NBA history, a record that still stands today. He scored 18 points in 22 minutes.</p>
-        </div>
-      </li>
-      <li class="tl-item tl-gold">
-        <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div></div>
-        <time class="tl-year" datetime="2000">2000</time>
-        <div class="tl-body">
-          <h3>🏆 First Championship</h3>
-          <p>Led the Lakers to the first of three consecutive NBA titles with Shaquille O'Neal. Kobe scored 26 in the deciding Game 6. A dynasty was born.</p>
-        </div>
-      </li>
-      <li class="tl-item tl-gold">
-        <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div></div>
-        <time class="tl-year" datetime="2001">2001</time>
-        <div class="tl-body">
-          <h3>🏆 Back-to-Back</h3>
-          <p>Swept the Eastern Conference and beat the 76ers in 5. The dynasty was no accident — it was a machine.</p>
-        </div>
-      </li>
-      <li class="tl-item tl-gold">
-        <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div></div>
-        <time class="tl-year" datetime="2002">2002</time>
-        <div class="tl-body">
-          <h3>🏆 Three-Peat Complete</h3>
-          <p>Third consecutive title. After an iconic comeback from 3–2 down against Sacramento, the Lakers defeated New Jersey for the ring. Kobe was 23.</p>
-        </div>
-      </li>
-      <li class="tl-item tl-gold">
-        <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div></div>
-        <time class="tl-year" datetime="2006">2006</time>
-        <div class="tl-body">
-          <h3>81 Points — One Night</h3>
-          <p>January 22, 2006. Toronto Raptors. 81 points — 55 in the second half alone. The second-highest total in NBA history. A mark that may never fall.</p>
-        </div>
-      </li>
-      <li class="tl-item tl-gold">
-        <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div></div>
-        <time class="tl-year" datetime="2008">2008</time>
-        <div class="tl-body">
-          <h3>League MVP + Olympic Gold</h3>
-          <p>Named NBA's Most Valuable Player averaging 28.3 PPG. Then led Team USA's "Redeem Team" to gold in Beijing. The arguments were settled.</p>
-        </div>
-      </li>
-      <li class="tl-item tl-gold">
-        <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div></div>
-        <time class="tl-year" datetime="2009">2009</time>
-        <div class="tl-body">
-          <h3>🏆 Fourth Ring + Finals MVP</h3>
-          <p>Defeated Orlando in 5. His first Finals MVP as the unquestioned leader. His late father had driven 400 miles to watch. They won together.</p>
-        </div>
-      </li>
-      <li class="tl-item tl-gold">
-        <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div></div>
-        <time class="tl-year" datetime="2010">2010</time>
-        <div class="tl-body">
-          <h3>🏆 Fifth Ring — Game 7</h3>
-          <p>Game 7, Boston Celtics. The most important game of his life. He played with broken fingers and won with guts. Two Finals MVPs. The case was closed.</p>
-        </div>
-      </li>
-      <li class="tl-item tl-gold">
-        <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div></div>
-        <time class="tl-year" datetime="2012">2012</time>
-        <div class="tl-body">
-          <h3>Second Olympic Gold</h3>
-          <p>Led Team USA to gold again in London, averaging 17.8 PPG. Two gold medals. On two different continents. In two different decades.</p>
-        </div>
-      </li>
-      <li class="tl-item">
-        <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div></div>
-        <time class="tl-year" datetime="2016">2016</time>
-        <div class="tl-body">
-          <h3>60-Point Farewell</h3>
-          <p>His last game. 60 points at 37 years old — on fumes and muscle memory. "Mamba out." Two words. Twenty years. Eternal.</p>
-        </div>
-      </li>
-      <li class="tl-item tl-gold">
-        <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div></div>
-        <time class="tl-year" datetime="2018">2018</time>
-        <div class="tl-body">
-          <h3>Academy Award Winner</h3>
-          <p>Won the Oscar for Best Animated Short Film for <em>Dear Basketball</em>. The first former professional athlete to win an Academy Award. Of course he did.</p>
-        </div>
-      </li>
-      <li class="tl-item tl-gold">
-        <div class="tl-marker" aria-hidden="true"><div class="tl-dot"></div></div>
-        <time class="tl-year" datetime="2020">2020</time>
-        <div class="tl-body">
-          <h3>Basketball Hall of Fame</h3>
-          <p>Inducted posthumously. The standing ovation lasted four minutes and twenty-four seconds. His name will live in that building as long as basketball exists.</p>
-        </div>
-      </li>
+      <li class="tl-item"><div class="tl-dot-wrap" aria-hidden="true"><div class="tl-dot"></div></div><time class="tl-yr" datetime="1996">1996</time><div class="tl-body"><h3>Drafted 13th Overall</h3><p>Selected by Charlotte, traded to the Lakers. At 17 — youngest NBA player since 1975. "He already sees things others don't."</p></div></li>
+      <li class="tl-item"><div class="tl-dot-wrap" aria-hidden="true"><div class="tl-dot"></div></div><time class="tl-yr" datetime="1997">1997</time><div class="tl-body"><h3>Slam Dunk Champion</h3><p>Won the NBA Slam Dunk Contest at 18 — the youngest winner ever. The league was beginning to realize what they were watching.</p></div></li>
+      <li class="tl-item"><div class="tl-dot-wrap" aria-hidden="true"><div class="tl-dot"></div></div><time class="tl-yr" datetime="1998">1998</time><div class="tl-body"><h3>Youngest All-Star Starter</h3><p>Named All-Star starter at 19 — the youngest in NBA history, a record that still stands. He scored 18 points in 22 minutes.</p></div></li>
+      <li class="tl-item tl-gold"><div class="tl-dot-wrap" aria-hidden="true"><div class="tl-dot"></div></div><time class="tl-yr" datetime="2000">2000</time><div class="tl-body"><h3>🏆 First Championship</h3><p>Led the Lakers to the first of three consecutive NBA titles with Shaquille O'Neal. A dynasty was born. Kobe was 21 years old.</p></div></li>
+      <li class="tl-item tl-gold"><div class="tl-dot-wrap" aria-hidden="true"><div class="tl-dot"></div></div><time class="tl-yr" datetime="2002">2002</time><div class="tl-body"><h3>🏆 Three-Peat Complete</h3><p>Third consecutive championship. After an iconic comeback vs Sacramento, the Lakers claimed their third straight ring. Kobe was 23.</p></div></li>
+      <li class="tl-item tl-gold"><div class="tl-dot-wrap" aria-hidden="true"><div class="tl-dot"></div></div><time class="tl-yr" datetime="2006">2006</time><div class="tl-body"><h3>81 Points — One Night</h3><p>January 22. Toronto Raptors. 81 points — 55 in the second half alone. The second-highest total in NBA history. Forever.</p></div></li>
+      <li class="tl-item tl-gold"><div class="tl-dot-wrap" aria-hidden="true"><div class="tl-dot"></div></div><time class="tl-yr" datetime="2008">2008</time><div class="tl-body"><h3>League MVP + Olympic Gold</h3><p>Named NBA's MVP averaging 28.3 PPG. Led Team USA's "Redeem Team" to gold in Beijing. The arguments were settled.</p></div></li>
+      <li class="tl-item tl-gold"><div class="tl-dot-wrap" aria-hidden="true"><div class="tl-dot"></div></div><time class="tl-yr" datetime="2010">2010</time><div class="tl-body"><h3>🏆 Fifth Ring — Game 7</h3><p>Boston Celtics. Game 7. The most important game of his life. He won it. Five rings. Two Finals MVPs. The case was closed.</p></div></li>
+      <li class="tl-item"><div class="tl-dot-wrap" aria-hidden="true"><div class="tl-dot"></div></div><time class="tl-yr" datetime="2016">2016</time><div class="tl-body"><h3>60-Point Farewell</h3><p>His last game. 60 points at 37 years old. The arena lit up like a galaxy. "Mamba out." Two words. Twenty years. Eternal.</p></div></li>
+      <li class="tl-item tl-gold"><div class="tl-dot-wrap" aria-hidden="true"><div class="tl-dot"></div></div><time class="tl-yr" datetime="2018">2018</time><div class="tl-body"><h3>Academy Award</h3><p>Won the Oscar for Best Animated Short Film for <em>Dear Basketball</em>. First former professional athlete to win an Academy Award.</p></div></li>
+      <li class="tl-item tl-gold"><div class="tl-dot-wrap" aria-hidden="true"><div class="tl-dot"></div></div><time class="tl-yr" datetime="2020">2020</time><div class="tl-body"><h3>Basketball Hall of Fame</h3><p>Inducted posthumously. The ovation lasted four minutes and twenty-four seconds. His name lives in that building forever.</p></div></li>
     </ol>
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     § MAMBA MENTALITY
-══════════════════════════════════ -->
-<section id="mamba" class="s-mamba reveal-section" aria-labelledby="mamba-h">
-  <canvas id="mamba-canvas" class="mamba-canvas" aria-hidden="true"></canvas>
+<!-- ═══ MAMBA MENTALITY ══════════════════════════════════ -->
+<section id="mamba" class="s-mamba" aria-labelledby="mamba-h">
+  <canvas id="mamba-canvas" aria-hidden="true"></canvas>
   <div class="mamba-bg" aria-hidden="true">
-    <div class="mamba-dot-grid"></div>
+    <div class="mamba-dots"></div>
     <div class="mamba-glow"></div>
   </div>
   <div class="wrap">
     <header class="section-header center stagger-parent">
       <div class="section-eyebrow stagger-child">The Philosophy</div>
       <h2 class="section-title stagger-child" id="mamba-h">Mamba<br><em>Mentality</em></h2>
-      <p class="mamba-intro stagger-child">Not a mindset. Not a brand. A way of life — four unbreakable pillars that built the most relentless competitor the game has ever seen.</p>
+      <p class="mamba-lead stagger-child">Not a mindset. Not a brand. A way of life — four pillars that built the most relentless competitor the game has ever seen.</p>
     </header>
-    <div class="mamba-grid">
-      <div class="mp-card">
-        <div class="mp-number" aria-hidden="true">01</div>
-        <div class="mp-icon" aria-hidden="true">
-          <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1"><circle cx="28" cy="28" r="22"/><path d="M28 10v18l8 6"/></svg>
-        </div>
-        <h3>Relentless Work</h3>
-        <p>4 AM gym sessions before anyone else arrived. Christmas mornings on the free-throw line. He would work until he couldn't lift his arms — then do fifty more. The work never stopped because the obsession never did.</p>
-      </div>
-      <div class="mp-card">
-        <div class="mp-number" aria-hidden="true">02</div>
-        <div class="mp-icon" aria-hidden="true">
-          <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1"><path d="M28 8L8 44h40L28 8z"/><path d="M20 32h16"/></svg>
-        </div>
-        <h3>Embrace Adversity</h3>
-        <p>Ruptured Achilles. Broken fingers. Fractured face. Career-threatening injuries treated as setbacks to be studied, not crises to be feared. Every obstacle became fuel. Pressure didn't break him — it built him.</p>
-      </div>
-      <div class="mp-card">
-        <div class="mp-number" aria-hidden="true">03</div>
-        <div class="mp-icon" aria-hidden="true">
-          <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1"><path d="M10 28h36M28 10l18 18-18 18"/></svg>
-        </div>
-        <h3>Master the Craft</h3>
-        <p>He didn't just play basketball — he studied it like a dissertation. Every opponent's defensive tendencies. Every referee's patterns. Every angle off the glass. Nothing was left to chance or improvisation.</p>
-      </div>
-      <div class="mp-card">
-        <div class="mp-number" aria-hidden="true">04</div>
-        <div class="mp-icon" aria-hidden="true">
-          <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1"><circle cx="28" cy="28" r="6"/><circle cx="28" cy="28" r="14"/><circle cx="28" cy="28" r="22"/></svg>
-        </div>
-        <h3>Total Presence</h3>
-        <p>Every possession, every practice, every single moment — treated as the most important thing happening on the planet. Nothing was throwaway. Nothing casual. Every rep counted as if his life depended on it.</p>
-      </div>
+    <div class="mamba-cards">
+      <div class="mp-card"><div class="mp-n" aria-hidden="true">01</div><svg class="mp-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width=".8" aria-hidden="true"><circle cx="24" cy="24" r="20"/><path d="M24 8v16l8 6"/></svg><h3>Relentless Work</h3><p>4 AM gym sessions before anyone else arrived. Christmas mornings on the free-throw line. The work never stopped because the obsession never did.</p></div>
+      <div class="mp-card"><div class="mp-n" aria-hidden="true">02</div><svg class="mp-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width=".8" aria-hidden="true"><path d="M24 6L6 42h36L24 6z"/><path d="M18 30h12"/></svg><h3>Embrace Adversity</h3><p>Ruptured Achilles. Broken fingers. Collapses and comebacks. Every obstacle became fuel. Pressure didn't break him — it built him stronger.</p></div>
+      <div class="mp-card"><div class="mp-n" aria-hidden="true">03</div><svg class="mp-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width=".8" aria-hidden="true"><path d="M8 24h32M24 8l16 16-16 16"/></svg><h3>Master the Craft</h3><p>He didn't just play basketball — he studied it like a dissertation. Every opponent's tendency. Every angle off the glass. Nothing left to chance.</p></div>
+      <div class="mp-card"><div class="mp-n" aria-hidden="true">04</div><svg class="mp-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width=".8" aria-hidden="true"><circle cx="24" cy="24" r="5"/><circle cx="24" cy="24" r="12"/><circle cx="24" cy="24" r="20"/></svg><h3>Total Presence</h3><p>Every possession was the most important thing on the planet. Every moment was an opportunity. Nothing throwaway. Nothing casual. Ever.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     § ROTATING QUOTES
-══════════════════════════════════ -->
-<section id="quotes" class="s-quotes reveal-section" aria-label="Kobe Bryant quotes">
+<!-- ═══ ALL-STAR MOMENT — cinematic full bleed ══════════ -->
+<section class="s-fullbleed s-fullbleed-purple" aria-label="All-Star 2011 — Los Angeles">
+  <div class="fb-img-wrap">
+    <img src="img-allstar2011.png" alt="Kobe Bryant entering the All-Star Game arena in Los Angeles 2011 — thousands of phone flashlights creating a galaxy in the darkness" loading="lazy" class="fb-img"/>
+  </div>
+  <div class="fb-overlay fb-overlay-purple" aria-hidden="true"></div>
+  <div class="fb-content fb-content-right">
+    <div class="fbc-eyebrow">2011 · Los Angeles</div>
+    <div class="fbc-title">ALL-STAR</div>
+    <div class="fbc-sub">18 selections. 4 MVP awards. His city. His stage.</div>
+  </div>
+</section>
+
+<!-- ═══ QUOTES ROTATOR ════════════════════════════════════ -->
+<section id="quotes" class="s-quotes" aria-label="Kobe Bryant — In His Own Words">
   <div class="wrap">
-    <div class="quotes-container">
-      <div class="section-eyebrow" style="text-align:center;margin-bottom:2rem">In His Own Words</div>
-      <div class="quote-rotator" id="quote-rotator" role="region" aria-live="polite" aria-label="Rotating quote">
-        <div class="qr-track" id="qr-track">
-          <div class="qr-slide active">
-            <blockquote>
-              <p>"The most important thing is to try and inspire people so that they can be great in whatever they want to do."</p>
-            </blockquote>
-          </div>
-          <div class="qr-slide">
-            <blockquote>
-              <p>"I have nothing in common with lazy people who blame others for their lack of success. Great things come from hard work and perseverance. No excuses."</p>
-            </blockquote>
-          </div>
-          <div class="qr-slide">
-            <blockquote>
-              <p>"Everything negative — pressure, challenges — is all an opportunity for me to rise."</p>
-            </blockquote>
-          </div>
-          <div class="qr-slide">
-            <blockquote>
-              <p>"If you're afraid to fail, then you're probably going to fail."</p>
-            </blockquote>
-          </div>
-          <div class="qr-slide">
-            <blockquote>
-              <p>"I can't relate to lazy people. We don't speak the same language."</p>
-            </blockquote>
-          </div>
-          <div class="qr-slide">
-            <blockquote>
-              <p>"The moment you give up is the moment you let someone else win."</p>
-            </blockquote>
-          </div>
-          <div class="qr-slide">
-            <blockquote>
-              <p>"Once you know what failure feels like, determination chases success."</p>
-            </blockquote>
-          </div>
-          <div class="qr-slide">
-            <blockquote>
-              <p>"Heros come and go, but legends are forever."</p>
-            </blockquote>
-          </div>
+    <div class="section-eyebrow" style="text-align:center;margin-bottom:2.5rem">In His Own Words</div>
+    <div class="quote-rotator" id="quote-rotator" tabindex="0" role="region" aria-live="polite" aria-label="Quote carousel — use arrow keys or buttons">
+      <div class="q-mark" aria-hidden="true">"</div>
+      <div class="qr-track" id="qr-track">
+        <div class="qr-slide active"><blockquote><p>"The most important thing is to try and inspire people so that they can be great in whatever they want to do."</p></blockquote></div>
+        <div class="qr-slide"><blockquote><p>"I have nothing in common with lazy people who blame others for their lack of success. Great things come from hard work and perseverance. No excuses."</p></blockquote></div>
+        <div class="qr-slide"><blockquote><p>"Everything negative — pressure, challenges — is all an opportunity for me to rise."</p></blockquote></div>
+        <div class="qr-slide"><blockquote><p>"If you're afraid to fail, then you're probably going to fail."</p></blockquote></div>
+        <div class="qr-slide"><blockquote><p>"I can't relate to lazy people. We don't speak the same language."</p></blockquote></div>
+        <div class="qr-slide"><blockquote><p>"The moment you give up is the moment you let someone else win."</p></blockquote></div>
+        <div class="qr-slide"><blockquote><p>"Once you know what failure feels like, determination chases success."</p></blockquote></div>
+        <div class="qr-slide"><blockquote><p>"Heroes come and go, but legends are forever."</p></blockquote></div>
+      </div>
+      <cite class="qr-cite">— Kobe Bryant</cite>
+      <div class="qr-controls">
+        <button class="qr-prev" aria-label="Previous quote">←</button>
+        <div class="qr-dots" role="tablist">
+          <button class="qr-dot active" role="tab" aria-selected="true" data-idx="0" aria-label="Quote 1"></button>
+          <button class="qr-dot" role="tab" aria-selected="false" data-idx="1" aria-label="Quote 2"></button>
+          <button class="qr-dot" role="tab" aria-selected="false" data-idx="2" aria-label="Quote 3"></button>
+          <button class="qr-dot" role="tab" aria-selected="false" data-idx="3" aria-label="Quote 4"></button>
+          <button class="qr-dot" role="tab" aria-selected="false" data-idx="4" aria-label="Quote 5"></button>
+          <button class="qr-dot" role="tab" aria-selected="false" data-idx="5" aria-label="Quote 6"></button>
+          <button class="qr-dot" role="tab" aria-selected="false" data-idx="6" aria-label="Quote 7"></button>
+          <button class="qr-dot" role="tab" aria-selected="false" data-idx="7" aria-label="Quote 8"></button>
         </div>
-        <cite class="qr-cite">— Kobe Bryant</cite>
-        <div class="qr-dots" role="tablist" aria-label="Quote navigation">
-          <button class="qr-dot active" role="tab" aria-selected="true" aria-label="Quote 1" data-idx="0"></button>
-          <button class="qr-dot" role="tab" aria-selected="false" aria-label="Quote 2" data-idx="1"></button>
-          <button class="qr-dot" role="tab" aria-selected="false" aria-label="Quote 3" data-idx="2"></button>
-          <button class="qr-dot" role="tab" aria-selected="false" aria-label="Quote 4" data-idx="3"></button>
-          <button class="qr-dot" role="tab" aria-selected="false" aria-label="Quote 5" data-idx="4"></button>
-          <button class="qr-dot" role="tab" aria-selected="false" aria-label="Quote 6" data-idx="5"></button>
-          <button class="qr-dot" role="tab" aria-selected="false" aria-label="Quote 7" data-idx="6"></button>
-          <button class="qr-dot" role="tab" aria-selected="false" aria-label="Quote 8" data-idx="7"></button>
-        </div>
-        <div class="qr-nav">
-          <button class="qr-prev" aria-label="Previous quote">←</button>
-          <button class="qr-next" aria-label="Next quote">→</button>
-        </div>
+        <button class="qr-next" aria-label="Next quote">→</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     § RECORDS & AWARDS SHOWCASE
-══════════════════════════════════ -->
-<section id="records" class="s-records reveal-section" aria-labelledby="rec-h">
-  <div class="wrap">
-    <header class="section-header stagger-parent">
-      <div class="section-eyebrow stagger-child">Records &amp; Honours</div>
-      <h2 class="section-title stagger-child" id="rec-h">Every Award.<br><em>Every Record.</em></h2>
-    </header>
-    <div class="records-grid">
-      <div class="rec-col">
-        <h3 class="rec-col-title">Championships &amp; MVP</h3>
-        <ul class="rec-list">
-          <li><span class="rl-gold">5×</span> NBA Champion <span class="rl-year">2000, '01, '02, '09, '10</span></li>
-          <li><span class="rl-gold">1×</span> NBA Most Valuable Player <span class="rl-year">2007–08</span></li>
-          <li><span class="rl-gold">2×</span> NBA Finals MVP <span class="rl-year">2009, 2010</span></li>
-          <li><span class="rl-gold">4×</span> NBA All-Star Game MVP <span class="rl-year">All-Time Tied Record</span></li>
-        </ul>
-      </div>
-      <div class="rec-col">
-        <h3 class="rec-col-title">All-Star &amp; All-NBA</h3>
-        <ul class="rec-list">
-          <li><span class="rl-gold">18×</span> NBA All-Star <span class="rl-year">1998–2016</span></li>
-          <li><span class="rl-gold">11×</span> All-NBA First Team</li>
-          <li><span class="rl-gold">2×</span> All-NBA Second Team</li>
-          <li><span class="rl-gold">2×</span> All-NBA Third Team</li>
-          <li><span class="rl-gold">9×</span> All-Defensive First Team</li>
-          <li><span class="rl-gold">3×</span> All-Defensive Second Team</li>
-        </ul>
-      </div>
-      <div class="rec-col">
-        <h3 class="rec-col-title">Records &amp; Milestones</h3>
-        <ul class="rec-list">
-          <li><span class="rl-gold">81</span> Pts, One Game — 2nd All-Time <span class="rl-year">Jan 22, 2006</span></li>
-          <li><span class="rl-gold">33,643</span> Career Points — #4 All-Time</li>
-          <li><span class="rl-gold">60</span> Pts Final Career Game <span class="rl-year">Apr 13, 2016</span></li>
-          <li><span class="rl-gold">50+</span> Point Games — 25 Times</li>
-          <li><span class="rl-gold">Youngest</span> All-Star Starter Ever <span class="rl-year">Age 19</span></li>
-          <li><span class="rl-gold">Youngest</span> Slam Dunk Champion <span class="rl-year">Age 18</span></li>
-        </ul>
-      </div>
-      <div class="rec-col">
-        <h3 class="rec-col-title">International &amp; Post-Career</h3>
-        <ul class="rec-list">
-          <li><span class="rl-gold">2×</span> Olympic Gold Medalist <span class="rl-year">2008 · 2012</span></li>
-          <li><span class="rl-gold">🏆</span> Academy Award Winner <span class="rl-year">2018</span></li>
-          <li><span class="rl-gold">⭐</span> Basketball Hall of Fame <span class="rl-year">2020</span></li>
-          <li><span class="rl-gold">#8 #24</span> Both Jersey Numbers Retired</li>
-          <li><span class="rl-gold">$</span> BodyArmor Investment → $5.6B</li>
-        </ul>
-      </div>
-    </div>
+<!-- ═══ CHAMPIONSHIP — 2010 Trophy photo ════════════════ -->
+<section class="s-fullbleed" aria-label="2010 NBA Championship celebration">
+  <div class="fb-img-wrap">
+    <img src="img-trophy2010.png" alt="Kobe Bryant laughing and holding the 2010 NBA Championship Larry O'Brien Trophy with teammates — pure joy and relief after winning his 5th ring" loading="lazy" class="fb-img"/>
+  </div>
+  <div class="fb-overlay" aria-hidden="true"></div>
+  <div class="fb-content fb-content-left">
+    <div class="fbc-eyebrow">June 17, 2010 · Los Angeles</div>
+    <div class="fbc-title">FIVE RINGS</div>
+    <div class="fbc-sub">The most joyful he ever looked. Game 7. Boston. Won.</div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     § LEGACY
-══════════════════════════════════ -->
-<section id="legacy" class="s-legacy reveal-section" aria-labelledby="leg-h">
+<!-- ═══ LEGACY GRID ═══════════════════════════════════════ -->
+<section id="legacy" class="s-legacy" aria-labelledby="leg-h">
   <div class="wrap">
     <header class="section-header stagger-parent">
       <div class="section-eyebrow stagger-child">The Legacy</div>
       <h2 class="section-title stagger-child" id="leg-h">Beyond<br><em>Basketball</em></h2>
     </header>
     <div class="legacy-grid">
-      <article class="lc lc-feature">
-        <div class="lc-num" aria-hidden="true">01</div>
-        <div class="lc-icon">🏆</div>
-        <h3>Academy Award</h3>
-        <p>Won the 2018 Oscar for Best Animated Short Film for <em>Dear Basketball</em> — a poem written the day he announced retirement, transformed into a hand-painted animation by Glen Keane. He became the first former professional athlete to win an Academy Award.</p>
-      </article>
-      <article class="lc">
-        <div class="lc-num" aria-hidden="true">02</div>
-        <div class="lc-icon">📖</div>
-        <h3>The Mamba Mentality</h3>
-        <p>His book on obsession, preparation, and performance — translated into 22 languages. Still outselling most active athletes' memoirs. Required reading in locker rooms, boardrooms, military academies, and MBA programs worldwide.</p>
-      </article>
-      <article class="lc">
-        <div class="lc-num" aria-hidden="true">03</div>
-        <div class="lc-icon">💛</div>
-        <h3>Mamba &amp; Mambacita Foundation</h3>
-        <p>Built to empower youth athletes — especially young women in basketball. Named after both Kobe and Gianna. His wife Vanessa leads the mission with the same ferocity Kobe brought to the court. Growing every year.</p>
-      </article>
-      <article class="lc">
-        <div class="lc-num" aria-hidden="true">04</div>
-        <div class="lc-icon">🌍</div>
-        <h3>Global Icon</h3>
-        <p>From Philadelphia to Manila, Lagos to São Paulo — jersey #24 is still sold, still worn, still revered in 2024. His philosophy of relentless effort became a universal language of ambition. No translation needed.</p>
-      </article>
+      <article class="lc lc-feat"><div class="lc-n" aria-hidden="true">01</div><div class="lc-icon">🏆</div><h3>Academy Award</h3><p>Won the 2018 Oscar for Best Animated Short Film for <em>Dear Basketball</em>. A love letter written the day he announced retirement. First former professional athlete to win an Academy Award.</p></article>
+      <article class="lc"><div class="lc-n" aria-hidden="true">02</div><div class="lc-icon">📖</div><h3>The Mamba Mentality</h3><p>His bestselling book on obsession and performance — translated into 22 languages. Still outselling most active athletes' memoirs years after publication.</p></article>
+      <article class="lc"><div class="lc-n" aria-hidden="true">03</div><div class="lc-icon">💛</div><h3>Mamba &amp; Mambacita Foundation</h3><p>Built to empower youth athletes, especially young women in basketball. His wife Vanessa leads the mission every single day.</p></article>
+      <article class="lc"><div class="lc-n" aria-hidden="true">04</div><div class="lc-icon">🌍</div><h3>Global Icon</h3><p>From Philadelphia to Manila, Lagos to São Paulo — jersey #24 is still worn with reverence worldwide. His philosophy of relentless effort became a universal language.</p></article>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     § TRIBUTE FROM THE WORLD
-══════════════════════════════════ -->
-<section id="tributes" class="s-tributes reveal-section" aria-labelledby="trib-h">
+<!-- ═══ WAVE FAREWELL — full-bleed ═══════════════════════ -->
+<section class="s-fullbleed" aria-label="Kobe waving goodbye to the Staples Center crowd">
+  <div class="fb-img-wrap">
+    <img src="img-wave.png" alt="Kobe Bryant from behind in #24 Lakers jersey raising his arm to wave goodbye to 20,000 fans holding up phone flashlights — the Staples Center glowing like stars" loading="lazy" class="fb-img" style="object-position:center 20%"/>
+  </div>
+  <div class="fb-overlay fb-overlay-top" aria-hidden="true"></div>
+  <div class="fb-content fb-content-center">
+    <div class="fbc-eyebrow">#ThankYouKobe</div>
+    <div class="fbc-title" style="font-size:clamp(3rem,10vw,9rem)">GOODBYE,<br>MAMBA</div>
+    <div class="fbc-sub">Twenty thousand lights for twenty years.</div>
+  </div>
+</section>
+
+<!-- ═══ TRIBUTES ══════════════════════════════════════════ -->
+<section id="tributes" class="s-tributes" aria-labelledby="trib-h">
   <div class="wrap">
     <header class="section-header center stagger-parent">
-      <div class="section-eyebrow stagger-child">The World Speaks</div>
+      <div class="section-eyebrow stagger-child">The World Responds</div>
       <h2 class="section-title stagger-child" id="trib-h">What They<br><em>Said About Kobe</em></h2>
     </header>
-    <div class="tributes-grid">
-      <div class="tribute-card">
-        <div class="tc-quote">"Kobe was a legend on the court. He was just getting started in what would have been just as meaningful a second act. To lose Gianna is even more heartbreaking to us as parents."</div>
-        <div class="tc-person">
-          <div class="tc-avatar" aria-hidden="true">BO</div>
-          <div class="tc-info">
-            <span class="tc-name">Barack Obama</span>
-            <span class="tc-role">44th President of the United States</span>
-          </div>
-        </div>
-      </div>
-      <div class="tribute-card">
-        <div class="tc-quote">"I am absolutely devastated by the news of Kobe's and Gianna's passing. Words can't describe the pain I'm feeling. We love you and will miss you. Rest in peace."</div>
-        <div class="tc-person">
-          <div class="tc-avatar" aria-hidden="true">LJ</div>
-          <div class="tc-info">
-            <span class="tc-name">LeBron James</span>
-            <span class="tc-role">4× NBA Champion · Fellow Legend</span>
-          </div>
-        </div>
-      </div>
-      <div class="tribute-card">
-        <div class="tc-quote">"There will never be another Kobe Bryant. The determination, the excellence, the legacy he left behind is something I hope we never forget."</div>
-        <div class="tc-person">
-          <div class="tc-avatar" aria-hidden="true">MJ</div>
-          <div class="tc-info">
-            <span class="tc-name">Michael Jordan</span>
-            <span class="tc-role">6× NBA Champion · Kobe's Idol</span>
-          </div>
-        </div>
-      </div>
-      <div class="tribute-card">
-        <div class="tc-quote">"Kobe was one of the greatest athletes of our time. He was dedicated, determined, and relentless. The Mamba mentality lives on."</div>
-        <div class="tc-person">
-          <div class="tc-avatar" aria-hidden="true">SC</div>
-          <div class="tc-info">
-            <span class="tc-name">Shaquille O'Neal</span>
-            <span class="tc-role">3× Champion · Kobe's Partner</span>
-          </div>
-        </div>
-      </div>
+    <div class="trib-grid">
+      <div class="trib-card"><p>"Kobe was a legend on the court and was just getting started in what would have been just as meaningful a second act."</p><div class="trib-who"><div class="trib-av">BO</div><div><strong>Barack Obama</strong><span>44th President of the United States</span></div></div></div>
+      <div class="trib-card"><p>"I am absolutely devastated by the news of Kobe's and Gianna's passing. Words can't describe the pain I'm feeling. We love you."</p><div class="trib-who"><div class="trib-av">LJ</div><div><strong>LeBron James</strong><span>4× NBA Champion</span></div></div></div>
+      <div class="trib-card"><p>"There will never be another Kobe Bryant. The determination, the excellence, the legacy he left behind is something I hope we never forget."</p><div class="trib-who"><div class="trib-av">MJ</div><div><strong>Michael Jordan</strong><span>6× NBA Champion</span></div></div></div>
+      <div class="trib-card"><p>"Kobe was one of the greatest athletes of our time — dedicated, determined, relentless. The Mamba Mentality lives on in all of us."</p><div class="trib-who"><div class="trib-av">SO</div><div><strong>Shaquille O'Neal</strong><span>3× Champion · Kobe's Partner</span></div></div></div>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════════
-     § CTA
-══════════════════════════════════ -->
-<section id="cta" class="s-cta reveal-section" aria-label="Explore more">
+<!-- ═══ CTA BAND ══════════════════════════════════════════ -->
+<section id="cta" class="s-cta" aria-label="Explore more">
   <div class="cta-bg" aria-hidden="true">
-    <img src="img-hero.png" alt=""/>
+    <img src="img-spotlight.png" alt=""/>
     <div class="cta-overlay"></div>
-    <div class="hl-grain"></div>
-    <div class="hl-bar top"></div>
-    <div class="hl-bar bottom"></div>
+    <div class="hero-grain"></div>
   </div>
   <div class="wrap">
     <div class="cta-inner stagger-parent">
-      <div class="cta-text">
+      <div class="cta-left">
         <h2 class="stagger-child">Dive Deeper<br>Into the Legend</h2>
-        <p class="stagger-child">Explore the full biography, discover his living legacy, connect with fellow fans, or just share this tribute with someone who needs to hear his story.</p>
+        <p class="stagger-child">Explore the full biography, discover his living legacy, and connect with the community.</p>
       </div>
-      <nav class="cta-actions stagger-child" aria-label="Explore navigation">
-        <a href="about.html" class="btn-gold">
-          <span>Full Biography</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
+      <nav class="cta-right stagger-child" aria-label="Explore sections">
+        <a href="about.html" class="btn-gold"><span>Full Biography</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         <a href="now.html" class="btn-outline">Living Legacy</a>
         <a href="contact.html" class="text-arrow">Get in Touch <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-        <button class="btn-outline" data-share style="gap:.5rem;display:inline-flex;align-items:center;cursor:none;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:16px;height:16px" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+        <button class="btn-outline" data-share style="display:inline-flex;align-items:center;gap:.5rem;cursor:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:15px;height:15px" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
           Share Tribute
         </button>
       </nav>
@@ -685,65 +451,76 @@
 
 </main>
 
-<!-- FOOTER -->
-<footer class="site-footer" aria-label="Site footer">
+<footer class="site-footer">
   <div class="wrap">
     <div class="footer-grid">
-      <div class="footer-brand" aria-label="Kobe Bryant tribute site">
+      <div class="footer-brand">
         <span class="fb-num" aria-hidden="true">24</span>
-        <div class="fb-text">
-          <span class="fb-name">KOBE BEAN BRYANT</span>
-          <span class="fb-dates">August 23, 1978 — January 26, 2020</span>
-        </div>
+        <div class="fb-text"><span class="fb-name">KOBE BEAN BRYANT</span><span class="fb-dates">August 23, 1978 — January 26, 2020</span></div>
       </div>
       <nav class="footer-nav" aria-label="Footer navigation">
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="now.html">Legacy</a>
-        <a href="contact.html">Contact</a>
+        <a href="index.html">Home</a><a href="about.html">About</a><a href="now.html">Legacy</a><a href="contact.html">Contact</a>
       </nav>
-      <div class="footer-mamba" aria-label="Mamba Forever">
-        <span class="fm-text">MAMBA FOREVER</span>
-        <span class="fm-nums" aria-hidden="true">8 · 24</span>
-      </div>
-      <p class="footer-copy">© TanayG. 2025 &nbsp;·&nbsp; Tribute website. Not affiliated with the Bryant family or NBA.<br>In loving memory of Kobe &amp; Gianna Bryant 🐍</p>
+      <div class="footer-mamba"><span class="fm-text">MAMBA FOREVER</span><span class="fm-nums" aria-hidden="true">8 · 24</span></div>
+      <p class="footer-copy">© TanayG. 2025 · Tribute website, not affiliated with the Bryant family or NBA.<br>In loving memory of Kobe &amp; Gianna Bryant 🐍</p>
     </div>
   </div>
 </footer>
 
-<button id="back-top" aria-label="Scroll back to top">
+<button id="back-top" aria-label="Back to top">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
 </button>
 
 <script src="main.js"></script>
 <script>
-/* Quote Rotator */
+/* Quote Rotator — inline for zero-dependency reliability */
 (function(){
   const slides = document.querySelectorAll('.qr-slide');
   const dots   = document.querySelectorAll('.qr-dot');
   const prev   = document.querySelector('.qr-prev');
   const next   = document.querySelector('.qr-next');
+  const wrap   = document.getElementById('quote-rotator');
   if(!slides.length) return;
-  let cur = 0, timer;
-
-  const go = n => {
-    slides[cur].classList.remove('active');
-    dots[cur].classList.remove('active');
-    dots[cur].setAttribute('aria-selected','false');
-    cur = (n + slides.length) % slides.length;
-    slides[cur].classList.add('active');
-    dots[cur].classList.add('active');
-    dots[cur].setAttribute('aria-selected','true');
+  let cur=0, timer, paused=false;
+  const go=n=>{
+    slides[cur].classList.remove('active'); dots[cur].classList.remove('active'); dots[cur].setAttribute('aria-selected','false');
+    cur=((n%slides.length)+slides.length)%slides.length;
+    slides[cur].classList.add('active'); dots[cur].classList.add('active'); dots[cur].setAttribute('aria-selected','true');
   };
-
-  const start = () => { timer = setInterval(() => go(cur + 1), 5000); };
-  const reset = () => { clearInterval(timer); start(); };
-
-  dots.forEach(d => d.addEventListener('click', () => { go(+d.dataset.idx); reset(); }));
-  prev.addEventListener('click', () => { go(cur - 1); reset(); });
-  next.addEventListener('click', () => { go(cur + 1); reset(); });
-  start();
+  const tick=()=>{ if(!paused) go(cur+1); };
+  const reset=()=>{ clearInterval(timer); timer=setInterval(tick,5500); };
+  dots.forEach(d=>d.addEventListener('click',()=>{go(+d.dataset.idx);reset();}));
+  if(prev) prev.addEventListener('click',()=>{go(cur-1);reset();});
+  if(next) next.addEventListener('click',()=>{go(cur+1);reset();});
+  if(wrap){
+    wrap.addEventListener('keydown',e=>{ if(e.key==='ArrowLeft'){go(cur-1);reset();} if(e.key==='ArrowRight'){go(cur+1);reset();} });
+    wrap.addEventListener('mouseenter',()=>paused=true);
+    wrap.addEventListener('mouseleave',()=>{paused=false;reset();});
+  }
+  reset();
+  /* Gallery expand */
+  const gcExpand = document.getElementById('gc-expand');
+  const galleryWrap = document.getElementById('gallery-img-wrap');
+  if(gcExpand && galleryWrap){
+    const openLB=()=>{
+      const img=galleryWrap.querySelector('img');
+      if(!img) return;
+      const lb=document.createElement('div'); lb.className='kb-lightbox'; lb.setAttribute('role','dialog'); lb.setAttribute('aria-modal','true'); lb.setAttribute('aria-label','Gallery lightbox');
+      lb.innerHTML=`<div class="lb-backdrop"></div><div class="lb-inner"><img src="${img.src}" alt="${img.alt}" class="lb-img"/><button class="lb-close" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button><p class="lb-caption">${img.alt.split('—')[0].trim()}</p></div>`;
+      document.body.appendChild(lb); document.body.style.overflow='hidden';
+      requestAnimationFrame(()=>requestAnimationFrame(()=>lb.classList.add('lb-open')));
+      const close=()=>{ lb.classList.remove('lb-open'); setTimeout(()=>{lb.remove();document.body.style.overflow='';},420); };
+      lb.querySelector('.lb-close').addEventListener('click',close);
+      lb.querySelector('.lb-backdrop').addEventListener('click',close);
+      document.addEventListener('keydown',function h(e){if(e.key==='Escape'){close();document.removeEventListener('keydown',h);}});
+      lb.querySelector('.lb-close').focus();
+    };
+    gcExpand.addEventListener('click',openLB);
+    galleryWrap.querySelector('img').addEventListener('click',openLB);
+    galleryWrap.querySelector('img').style.cursor='zoom-in';
+  }
 })();
 </script>
+  <script src="transition.js"></script>
 </body>
 </html>

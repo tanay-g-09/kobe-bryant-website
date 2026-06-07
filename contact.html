@@ -15,10 +15,19 @@
   <script>
     // EmailJS public key — initialise as early as possible
     (function(){
-      emailjs.init({ publicKey: '6pM1fEUh78Ud87zxp' });
+      emailjs.init({ publicKey: 'user_REPLACE_WITH_YOUR_KEY' });
       // ↑ Replace with your EmailJS public key from https://www.emailjs.com
       // See setup instructions at bottom of this file
     })();
+  </script>
+  <!-- GSAP 3 + Page Transition -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
+  <script>
+    // Register MotionPathPlugin early
+    if(typeof gsap !== "undefined" && typeof MotionPathPlugin !== "undefined"){
+      gsap.registerPlugin(MotionPathPlugin);
+    }
   </script>
 </head>
 <body>
@@ -345,8 +354,8 @@
    ══════════════════════════════════════════════════════════ */
 
 /* ── EmailJS Config — replace these 3 values ── */
-const EMAILJS_SERVICE_ID  = 'service_6fedwgn';   // from emailjs.com dashboard
-const EMAILJS_TEMPLATE_ID = 'template_blkuavt';  // your email template ID
+const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // from emailjs.com dashboard
+const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // your email template ID
 /* Public key already set in <head> above      */
 
 /* ── FORM ELEMENTS ── */
@@ -563,5 +572,6 @@ if (esnToggle && esnSteps) {
   }
 })();
 </script>
+  <script src="transition.js"></script>
 </body>
 </html>

@@ -7,6 +7,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="styles.css"/>
+  <!-- GSAP 3 + Page Transition -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
+  <script>
+    // Register MotionPathPlugin early
+    if(typeof gsap !== "undefined" && typeof MotionPathPlugin !== "undefined"){
+      gsap.registerPlugin(MotionPathPlugin);
+    }
+  </script>
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>
@@ -153,4 +162,5 @@
 </div></div></footer>
 <button id="back-top" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 <script src="main.js"></script>
+  <script src="transition.js"></script>
 </body></html>
