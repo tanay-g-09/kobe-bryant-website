@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Contact — Kobe Bryant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<div id="cur-dot" aria-hidden="true"></div><div id="cur-ring" aria-hidden="true"></div>
+<div id="scroll-bar" aria-hidden="true"></div>
+<nav id="nav" aria-label="Main navigation">
+  <a href="index.html" class="nav-logo" aria-label="Home"><span class="nl-number">24</span><div class="nl-text"><span class="nl-k">KOBE</span><span class="nl-b">BRYANT</span></div></a>
+  <ul id="nav-menu" role="list">
+    <li><a href="index.html" class="nl">Home</a></li>
+    <li><a href="about.html" class="nl">About</a></li>
+    <li><a href="now.html" class="nl">Legacy</a></li>
+    <li><a href="contact.html" class="nl active" aria-current="page">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button id="theme-btn" aria-label="Toggle theme" class="theme-btn"><span class="tb-track"><span class="tb-thumb"></span></span></button>
+    <button id="menu-btn" class="menu-btn" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- CONTACT HERO -->
+<section class="s-contact-hero" aria-label="Contact header">
+  <div class="coh-bg" aria-hidden="true">
+    <img src="img-hero.png" alt=""/>
+    <div class="coh-overlay"></div>
+    <div class="hl-grain"></div>
+    <div class="hl-bar top"></div>
+    <div class="hl-bar bottom"></div>
+  </div>
+  <div class="coh-content wrap">
+    <div class="section-eyebrow">Get In Touch</div>
+    <h1 class="coh-title">Let's<br><em>Connect</em></h1>
+    <p class="coh-sub">Questions, tributes, collaborations — we'd love to hear from you.</p>
+  </div>
+</section>
+
+<!-- CONTACT BODY -->
+<section class="s-contact reveal-section" aria-labelledby="contact-h">
+  <div class="wrap">
+    <div class="contact-grid">
+
+      <!-- Info -->
+      <div class="contact-info stagger-parent">
+        <div class="section-eyebrow stagger-child">Site Manager</div>
+        <h2 class="ci-name stagger-child" id="contact-h">Tanay G.</h2>
+        <p class="ci-desc stagger-child">This is a tribute to the greatest basketball player of all time. Reach out with feedback, tributes, or collaboration ideas.</p>
+
+        <div class="ci-items stagger-child">
+          <a href="mailto:guttatanay09@gmail.com" class="ci-item">
+            <div class="ci-item-icon" aria-hidden="true">✉</div>
+            <div class="ci-item-body">
+              <span class="ci-item-label">Email</span>
+              <span class="ci-item-val">guttatanay09@gmail.com</span>
+            </div>
+          </a>
+          <div class="ci-item">
+            <div class="ci-item-icon" aria-hidden="true">📍</div>
+            <div class="ci-item-body">
+              <span class="ci-item-label">Tribute to</span>
+              <span class="ci-item-val">Kobe Bean Bryant · #24</span>
+            </div>
+          </div>
+          <div class="ci-item">
+            <div class="ci-item-icon" aria-hidden="true">🐍</div>
+            <div class="ci-item-body">
+              <span class="ci-item-label">Mamba Forever</span>
+              <span class="ci-item-val">1978 – 2020</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ci-quote stagger-child">
+          <p>"If you're afraid to fail, then you're probably going to fail."</p>
+          <cite>— Kobe Bryant</cite>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="contact-form-wrap">
+        <form class="contact-form" id="contact-form" novalidate aria-label="Contact form">
+
+          <div class="form-row">
+            <div class="field">
+              <input type="text" id="fname" name="fname" required autocomplete="given-name" placeholder=" "/>
+              <label for="fname">First Name</label>
+              <div class="field-err" role="alert" aria-live="polite">Please enter your first name</div>
+            </div>
+            <div class="field">
+              <input type="text" id="lname" name="lname" required autocomplete="family-name" placeholder=" "/>
+              <label for="lname">Last Name</label>
+              <div class="field-err" role="alert" aria-live="polite">Please enter your last name</div>
+            </div>
+          </div>
+
+          <div class="field">
+            <input type="email" id="email" name="email" required autocomplete="email" placeholder=" "/>
+            <label for="email">Email Address</label>
+            <div class="field-err" role="alert" aria-live="polite">Please enter a valid email</div>
+          </div>
+
+          <div class="field">
+            <input type="text" id="subject" name="subject" required placeholder=" "/>
+            <label for="subject">Subject</label>
+            <div class="field-err" role="alert" aria-live="polite">Please enter a subject</div>
+          </div>
+
+          <div class="field field-textarea">
+            <textarea id="message" name="message" rows="5" required placeholder=" "></textarea>
+            <label for="message">Your Message</label>
+            <div class="field-err" role="alert" aria-live="polite">Please write a message</div>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submit-btn">
+            <span class="bs-text">Send Message</span>
+            <span class="bs-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+            <span class="bs-loader" aria-hidden="true"></span>
+          </button>
+        </form>
+
+        <div class="form-success" id="form-success" aria-live="polite" role="status" hidden>
+          <div class="fs-check" aria-hidden="true">
+            <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="24" cy="24" r="20"/><path d="M14 24l7 7 13-14"/></svg>
+          </div>
+          <h3>Message Sent</h3>
+          <p>Thanks for reaching out. We'll get back to you soon.</p>
+          <button class="btn-outline" onclick="window.resetContactForm()">Send Another</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer"><div class="wrap"><div class="footer-grid">
+  <div class="footer-brand"><span class="fb-num" aria-hidden="true">24</span><div class="fb-text"><span class="fb-name">KOBE BEAN BRYANT</span><span class="fb-dates">August 23, 1978 — January 26, 2020</span></div></div>
+  <nav class="footer-nav" aria-label="Footer links"><a href="index.html">Home</a><a href="about.html">About</a><a href="now.html">Legacy</a><a href="contact.html">Contact</a></nav>
+  <p class="footer-copy">© TanayG. 2025 &nbsp;·&nbsp; In loving memory of Kobe &amp; Gianna Bryant</p>
+</div></div></footer>
+<button id="back-top" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<script src="main.js"></script>
+</body></html>
