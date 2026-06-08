@@ -851,3 +851,238 @@ console.log(
     });
   });
 })();
+
+/* ────────────────────────────────────────────────────────
+   DIPTYCH PANELS — keyboard accessible + hover reveal
+──────────────────────────────────────────────────────── */
+(function initDiptych() {
+  $$('.dip-panel').forEach(panel => {
+    panel.setAttribute('tabindex', '0');
+    panel.setAttribute('role', 'img');
+    const label = panel.dataset.label || '';
+    const cap   = panel.dataset.caption || '';
+    if (label || cap) panel.setAttribute('aria-label', `${label} — ${cap}`);
+  });
+})();
+
+/* ────────────────────────────────────────────────────────
+   FULL-BLEED SECTIONS — subtle Ken Burns on scroll-in
+──────────────────────────────────────────────────────── */
+(function initFullbleed() {
+  if (!matchMedia('(prefers-reduced-motion:no-preference)').matches) return;
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      const img = e.target.querySelector('.fb-img');
+      if (!img) return;
+      if (e.isIntersecting) {
+        img.style.transform = 'scale(1)';
+        img.style.transition = 'transform 8s ease-out';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  $$('.s-fullbleed').forEach(el => {
+    const img = el.querySelector('.fb-img');
+    if (img) { img.style.transform = 'scale(1.06)'; }
+    obs.observe(el);
+  });
+})();
+
+/* ────────────────────────────────────────────────────────
+   NOW PAGE CARDS — click to expand detail
+──────────────────────────────────────────────────────── */
+(function initNowCards() {
+  $$('.now-card').forEach(card => {
+    const p = card.querySelector('p');
+    if (!p) return;
+    const full  = p.textContent.trim();
+    const trunc = full.length > 130 ? full.slice(0, 130).trim() + '…' : null;
+    if (!trunc) return;
+
+    let open = false;
+    p.textContent = trunc;
+
+    const btn = document.createElement('button');
+    btn.className   = 'nc-read-more';
+    btn.textContent = 'Read more';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.style.cssText = `
+      display:block; background:none; border:none;
+      font-family:var(--font-mono); font-size:.68rem;
+      letter-spacing:.1em; text-transform:uppercase;
+      color:var(--gold); cursor:pointer;
+      margin-top:.65rem; padding:0;
+      transition:opacity .2s;
+    `;
+    card.appendChild(btn);
+
+    on(btn, 'click', () => {
+      open = !open;
+      p.textContent = open ? full : trunc;
+      btn.textContent = open ? 'Read less' : 'Read more';
+      btn.setAttribute('aria-expanded', String(open));
+    });
+  });
+})();
+
+/* ────────────────────────────────────────────────────────
+   MEMORIAL HERO — parallax on scroll (now.html)
+──────────────────────────────────────────────────────── */
+(function initMemorialParallax() {
+  if (!matchMedia('(prefers-reduced-motion:no-preference)').matches) return;
+  const photo = document.querySelector('.mem-photo');
+  const hero  = document.querySelector('.s-memorial');
+  if (!photo || !hero) return;
+
+  let ticking = false;
+  on(window, 'scroll', () => {
+    if (ticking) return;
+    requestAnimationFrame(() => {
+      const rect = hero.getBoundingClientRect();
+      if (rect.bottom > 0 && rect.top < window.innerHeight) {
+        const progress = -rect.top / window.innerHeight;
+        photo.style.transform = `scale(1.06) translateY(${progress * 60}px)`;
+      }
+      ticking = false;
+    });
+    ticking = true;
+  }, { passive: true });
+})();
+
+/* ────────────────────────────────────────────────────────
+   TRIBUTE NUMBERS — count-up on scroll
+──────────────────────────────────────────────────────── */
+(function initTributeNumbers() {
+  const nums = $$('.tribute-nums');
+  nums.forEach(el => {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        el.style.opacity = '0';
+        el.style.transform = 'scale(.8)';
+        el.style.transition = 'opacity 1.2s ease, transform 1.2s cubic-bezier(.16,1,.3,1)';
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            el.style.opacity = '0.07';
+            el.style.transform = 'scale(1)';
+          });
+        });
+        obs.unobserve(el);
+      });
+    }, { threshold: 0.3 });
+    obs.observe(el);
+  });
+})();
+
+/* ────────────────────────────────────────────────────────
+   SCROLL-TRIGGERED SECTION EYEBROWS — type-on effect
+──────────────────────────────────────────────────────── */
+(function initEyebrowTypeOn() {
+  if (!matchMedia('(prefers-reduced-motion:no-preference)').matches) return;
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el   = e.target;
+      const text = el.textContent;
+      el.textContent = '';
+      el.style.borderRight = '1px solid var(--gold)';
+
+      let i = 0;
+      const interval = setInterval(() => {
+        el.textContent = text.slice(0, ++i);
+        if (i >= text.length) {
+          clearInterval(interval);
+          setTimeout(() => el.style.borderRight = 'none', 400);
+        }
+      }, 38);
+      obs.unobserve(el);
+    });
+  }, { threshold: 0.8 });
+
+  // Only apply to hero eyebrows, not all of them (too aggressive)
+  $$('.s-memorial .section-eyebrow, .s-memorial .mdb-month').forEach(el => {
+    obs.observe(el);
+  });
+})();
+
+/* ────────────────────────────────────────────────────────
+   IN-MEMORIAM BLOCK — subtle glow pulse
+──────────────────────────────────────────────────────── */
+(function initInMemoriam() {
+  const block = document.querySelector('.in-memoriam');
+  if (!block) return;
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      block.style.transition = 'box-shadow 1.5s ease';
+      block.style.boxShadow  = '0 0 0 1px rgba(253,185,39,0.2), inset 3px 0 0 var(--gold), 0 4px 24px rgba(253,185,39,0.08)';
+      obs.unobserve(block);
+    });
+  }, { threshold: 0.6 });
+  obs.observe(block);
+})();
+
+/* ────────────────────────────────────────────────────────
+   IMAGE LAZY LOAD with fade-in
+──────────────────────────────────────────────────────── */
+(function initImageFadeIn() {
+  if (!('IntersectionObserver' in window)) return;
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const img = e.target;
+      img.style.opacity    = '0';
+      img.style.transition = 'opacity .6s ease, filter .6s ease';
+      img.style.filter     = 'blur(4px)';
+
+      const loaded = () => {
+        img.style.opacity = '1';
+        img.style.filter  = img.dataset.filterFinal || '';
+      };
+
+      if (img.complete) loaded();
+      else img.addEventListener('load', loaded, { once: true });
+      obs.unobserve(img);
+    });
+  }, { rootMargin: '0px 0px 100px 0px', threshold: 0 });
+
+  $$('img[loading="lazy"]').forEach(img => obs.observe(img));
+})();
+
+/* ────────────────────────────────────────────────────────
+   NAV ACTIVE STATE — update based on current page filename
+──────────────────────────────────────────────────────── */
+(function syncActiveNav() {
+  const current = window.location.pathname.split('/').pop() || 'index.html';
+  $$('#nav-menu .nl').forEach(link => {
+    const href = link.getAttribute('href') || '';
+    const matches = href === current || (href === 'index.html' && current === '');
+    link.classList.toggle('active', matches);
+    if (matches) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  });
+})();
+
+/* ────────────────────────────────────────────────────────
+   FOOTER BRAND NUMBER — random shimmer
+──────────────────────────────────────────────────────── */
+(function initFooterShimmer() {
+  const num = document.querySelector('.fb-num');
+  if (!num) return;
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      num.style.transition = 'opacity 1.2s ease';
+      num.style.opacity    = '0.6';
+      setTimeout(() => { num.style.opacity = '0.4'; }, 1200);
+      obs.unobserve(num);
+    });
+  }, { threshold: 0.5 });
+  obs.observe(num);
+})();
+
+console.log('%c[KobeSite] All systems initialised. Mamba Out. 🐍', 'color:#FDB927;font-family:monospace;font-size:12px');

@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Legacy — Kobe Bryant</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="description" content="Kobe Bryant's living legacy — how the Black Mamba continues to inspire the world."/>
+  <title>Legacy — Kobe Bryant · The Black Mamba</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="styles.css"/>
-  <!-- GSAP 3 + Page Transition -->
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
-  <script>
-    // Register MotionPathPlugin early
-    if(typeof gsap !== "undefined" && typeof MotionPathPlugin !== "undefined"){
-      gsap.registerPlugin(MotionPathPlugin);
-    }
-  </script>
+  <script>if(typeof gsap!=='undefined'&&typeof MotionPathPlugin!=='undefined'){gsap.registerPlugin(MotionPathPlugin);}</script>
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>
-<div id="cur-dot" aria-hidden="true"></div><div id="cur-ring" aria-hidden="true"></div>
+<div id="cur-dot" aria-hidden="true"></div>
+<div id="cur-ring" aria-hidden="true"></div>
 <div id="scroll-bar" aria-hidden="true"></div>
+
 <nav id="nav" aria-label="Main navigation">
-  <a href="index.html" class="nav-logo" aria-label="Home"><span class="nl-number">24</span><div class="nl-text"><span class="nl-k">KOBE</span><span class="nl-b">BRYANT</span></div></a>
+  <a href="index.html" class="nav-logo" aria-label="Kobe Bryant — Home">
+    <span class="nl-num">24</span>
+    <div class="nl-text"><span class="nl-k">KOBE</span><span class="nl-b">BRYANT</span></div>
+  </a>
   <ul id="nav-menu" role="list">
     <li><a href="index.html" class="nl">Home</a></li>
     <li><a href="about.html" class="nl">About</a></li>
@@ -30,17 +31,17 @@
     <li><a href="contact.html" class="nl">Contact</a></li>
   </ul>
   <div class="nav-right">
-    <button id="theme-btn" aria-label="Toggle theme" class="theme-btn"><span class="tb-track"><span class="tb-thumb"></span></span></button>
+    <button id="theme-btn" class="theme-btn" aria-label="Toggle theme"><span class="tb-track"><span class="tb-thumb"></span></span></button>
     <button id="menu-btn" class="menu-btn" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
   </div>
 </nav>
 
 <main id="main">
 
-<!-- MEMORIAL HERO -->
-<section class="s-memorial" aria-label="In memoriam">
+<!-- ═══ MEMORIAL HERO — Wave goodbye image ════════════════ -->
+<section class="s-memorial" aria-label="In memoriam — Kobe &amp; Gianna Bryant">
   <div class="mem-bg" aria-hidden="true">
-    <img src="img-hero.png" alt="" class="mem-photo"/>
+    <img src="img-hero.png" alt="" class="mem-photo" style="object-position:65% center"/>
     <div class="mem-overlay"></div>
     <div class="hl-grain"></div>
     <div class="hl-bar top"></div>
@@ -56,7 +57,7 @@
     </div>
     <h1 class="mem-title">Now &amp;<br><em>Forever</em></h1>
     <p class="mem-sub">How the Black Mamba continues to inspire — long after the final buzzer.</p>
-    <div class="mem-numbers" aria-label="Jersey numbers">
+    <div class="mem-numbers" aria-label="Retired jersey numbers">
       <span class="mn-num">8</span>
       <span class="mn-sep">·</span>
       <span class="mn-num">24</span>
@@ -64,7 +65,7 @@
   </div>
 </section>
 
-<!-- JANUARY 26 -->
+<!-- ═══ JANUARY 26 ════════════════════════════════════════ -->
 <section class="s-passing reveal-section" aria-labelledby="pass-h">
   <div class="wrap">
     <div class="passing-layout">
@@ -74,19 +75,74 @@
       </div>
       <div class="pass-right stagger-parent">
         <p class="body-copy stagger-child">On a foggy Sunday morning in Calabasas, California, Kobe Bryant, his 13-year-old daughter Gianna, and seven others were killed when their helicopter crashed into a hillside. Dense fog had reduced visibility to near zero. The pilot, likely disoriented, could not recover.</p>
-        <p class="body-copy stagger-child">When the news broke, it felt like the entire world held its breath. Then exhaled in grief. Vigils spread from Los Angeles to Lagos. Athletes wept on live television. A generation that had grown up watching #24 could not believe what they were hearing.</p>
-        <p class="body-copy stagger-child">Kobe was 41. Gianna was 13, already being called the next great player in women's basketball. They were heading together to a youth tournament. Side by side, as always.</p>
+        <p class="body-copy stagger-child">When the news broke, it felt like the entire world held its breath. Then exhaled in grief. Vigils spread from Los Angeles to Lagos. Athletes wept on live television. A generation that had grown up watching #24 could not process what they were hearing.</p>
+        <p class="body-copy stagger-child">Kobe was 41. Gianna was 13, already being called the next great player in women's basketball. They were heading together to a youth tournament — a father coaching his daughter, doing what they both loved most.</p>
         <div class="in-memoriam stagger-child">
           <div class="im-name">Kobe Bean Bryant</div>
           <div class="im-name">Gianna Maria-Onore Bryant</div>
-          <div class="im-dates">1978 – 2020</div>
+          <div class="im-dates">1978 – 2020 &nbsp;·&nbsp; 2006 – 2020</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- LIVING LEGACY DASHBOARD -->
+<!-- ═══ FATHER & DAUGHTER — Kobe + Gianna courtside ═══════ -->
+<section class="s-fullbleed reveal-section" aria-label="Kobe and Gianna Bryant — father and daughter">
+  <div class="fb-img-wrap">
+    <img src="img-gianna-smile.png"
+         alt="Kobe Bryant and his daughter Gianna laughing together courtside at a basketball game — their faces turned toward each other, pure joy between a father and his daughter"
+         loading="lazy" class="fb-img" style="object-position:center 30%"/>
+  </div>
+  <div class="fb-overlay" aria-hidden="true"></div>
+  <div class="fb-content fb-content-left">
+    <div class="fbc-eyebrow">Kobe &amp; Gianna</div>
+    <div class="fbc-title">THE GREATEST<br>TEAMMATE</div>
+    <div class="fbc-sub">In his final chapter, coaching Gianna was the most joyful Kobe had ever been. He was passing the fire forward.</div>
+  </div>
+</section>
+
+<!-- ═══ MAMBA ACADEMY — Coaching moment ══════════════════ -->
+<section class="s-intro reveal-section" aria-labelledby="coach-h" style="min-height:auto">
+  <div class="intro-img-col" style="max-height:75vh;overflow:hidden">
+    <div class="intro-img-sticky" style="height:75vh">
+      <img src="img-mamba-academy.png"
+           alt="Kobe Bryant coaching his daughter Gianna at Mamba Academy — both holding basketballs, Kobe speaking intensely, Gianna listening with full focus"
+           loading="lazy" class="intro-img"/>
+      <div class="intro-img-badge">
+        <span class="iib-top">MAMBA ACADEMY</span>
+        <span class="iib-bot">Passing the Fire Forward</span>
+      </div>
+      <div class="intro-img-glow" aria-hidden="true"></div>
+    </div>
+  </div>
+  <div class="intro-text-col">
+    <div class="intro-inner stagger-parent">
+      <div class="section-eyebrow stagger-child" id="coach-h">Gigi's Coach</div>
+      <h2 class="section-title stagger-child">The Next<br><em>Mamba</em></h2>
+      <p class="body-copy stagger-child">Gianna Maria-Onore Bryant — "Gigi" — was 13 years old and already one of the most promising youth basketball players in the country. Those who watched her practice said she had her father's footwork, her father's eyes, and her father's absolute refusal to be outworked.</p>
+      <p class="body-copy stagger-child">Kobe built the Mamba Sports Academy partly for her. He coached her team, the Mamba Ballers, with the same meticulous intensity he brought to twenty seasons in the NBA — studying game film, designing plays, demanding excellence.</p>
+      <p class="body-copy stagger-child">People who saw them together at games said it was the most joyful version of Kobe they had ever witnessed. He wasn't the Black Mamba anymore. He was just a proud father, watching his daughter become exactly who he always knew she could be.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ JERSEY RETIREMENT CEREMONY ════════════════════════ -->
+<section class="s-fullbleed reveal-section" aria-label="Jersey retirement ceremony at Staples Center">
+  <div class="fb-img-wrap">
+    <img src="img-jersey-retire.png"
+         alt="Kobe Bryant at the podium during his jersey retirement ceremony at Staples Center — both his #8 and #24 jerseys hanging in the rafters, Vanessa and Gianna watching, the crowd standing in ovation"
+         loading="lazy" class="fb-img"/>
+  </div>
+  <div class="fb-overlay fb-overlay-purple" aria-hidden="true"></div>
+  <div class="fb-content fb-content-right">
+    <div class="fbc-eyebrow">December 18, 2017 · Staples Center</div>
+    <div class="fbc-title">8<br>&amp; 24</div>
+    <div class="fbc-sub">Both numbers raised to the rafters forever. The only Laker ever to have two jerseys retired.</div>
+  </div>
+</section>
+
+<!-- ═══ LIVING LEGACY DASHBOARD ══════════════════════════ -->
 <section class="s-now-dash reveal-section" aria-labelledby="now-h">
   <div class="wrap">
     <header class="section-header center stagger-parent">
@@ -98,69 +154,130 @@
         <div class="nc-tag">Class of 2020</div>
         <div class="nc-icon" aria-hidden="true">🏆</div>
         <h3>Basketball Hall of Fame</h3>
-        <p>Inducted into the Naismith Memorial Basketball Hall of Fame in 2020, months after his passing. His daughter Vanessa delivered an emotional acceptance speech before a standing ovation that lasted four minutes.</p>
+        <p>Inducted into the Naismith Memorial Basketball Hall of Fame in 2020, months after his passing. Vanessa Bryant accepted on his behalf before a standing ovation that lasted four minutes. His daughters sat in the front row. The arena was completely silent between sobs.</p>
       </div>
       <div class="now-card">
         <div class="nc-tag">Retired Forever</div>
         <div class="nc-icon" aria-hidden="true">🎽</div>
         <h3>#8 and #24 — Both Retired</h3>
-        <p>The Los Angeles Lakers retired both of Kobe's jersey numbers — the first in franchise history to have two numbers retired for one player.</p>
+        <p>The Los Angeles Lakers retired both jersey numbers in 2017 — the first player in franchise history to have two numbers hang in the Staples Center rafters simultaneously.</p>
       </div>
       <div class="now-card">
         <div class="nc-tag">Active Today</div>
         <div class="nc-icon" aria-hidden="true">💛</div>
         <h3>Mamba &amp; Mambacita Foundation</h3>
-        <p>His foundation continues to empower youth athletes, especially young women in basketball. Vanessa Bryant leads the mission daily.</p>
+        <p>Named after both Kobe and Gianna, the foundation empowers youth athletes — especially young women in basketball. Vanessa Bryant leads every initiative with the same drive Kobe brought to the court.</p>
       </div>
       <div class="now-card">
         <div class="nc-tag">Ongoing</div>
         <div class="nc-icon" aria-hidden="true">🎬</div>
-        <h3>Media &amp; Culture</h3>
-        <p>Documentaries, tributes, and retrospectives continue to be released worldwide. His philosophy is studied in schools, locker rooms, and boardrooms.</p>
+        <h3>Media &amp; Storytelling</h3>
+        <p>Documentaries, books, retrospectives and tributes continue to be produced worldwide. <em>Dear Basketball</em> still moves audiences to tears. His philosophy is studied in schools, boardrooms, and training facilities on every continent.</p>
       </div>
       <div class="now-card nc-wide">
-        <div class="nc-tag">Every Day</div>
-        <div class="nc-icon" aria-hidden="true">🌐</div>
-        <h3>Global Influence</h3>
-        <p>In gyms from Manila to Nairobi, from Buenos Aires to Warsaw — young athletes wake up and choose to embrace the Mamba Mentality. Number 24 jerseys are still sold, still worn, still revered. His message of relentless effort became a universal language of ambition that outlives any sport, any era, any record.</p>
+        <div class="nc-tag">Every Single Day</div>
+        <div class="nc-icon" aria-hidden="true">🌍</div>
+        <h3>The Mamba Mentality Lives On</h3>
+        <p>In gyms from Manila to Nairobi, from Buenos Aires to Warsaw — young athletes wake up before dawn and choose to embrace the Mamba Mentality. Number 24 jerseys are still sold, still worn, still revered in 2025. His message of relentless effort became a universal language of ambition that outlives any sport, any era, any record. That is what immortality looks like.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- COLLAGE PHOTO -->
-<section class="s-photo-break reveal-section" aria-label="Career tribute photographs" style="height:60vh;">
-  <img src="img-collage.png" alt="Ten defining photographs — a tribute to Kobe Bryant's twenty seasons" loading="lazy"/>
-  <div class="pb-overlay"></div>
+<!-- ═══ SPOTLIGHT — Alone on court, jerseys retired ═══════ -->
+<section class="s-fullbleed reveal-section" aria-label="Kobe alone on the court — a solitary figure under a spotlight">
+  <div class="fb-img-wrap">
+    <img src="img-spotlight.png"
+         alt="Kobe Bryant alone on the Lakers court at center, seen from behind in his #24 jersey — a single spotlight illuminating him from above, both his retired jersey numbers visible in the rafters, thousands of fans surrounding the darkness"
+         loading="lazy" class="fb-img" style="object-position:center 15%"/>
+  </div>
+  <div class="fb-overlay fb-overlay-top" aria-hidden="true"></div>
+  <div class="fb-content fb-content-center" style="padding-top:8vh">
+    <div class="fbc-eyebrow">Staples Center · Los Angeles</div>
+    <div class="fbc-title" style="font-size:clamp(4rem,12vw,10rem)">THE<br>LEGEND</div>
+    <div class="fbc-sub" style="margin:0 auto;max-width:480px">One court. One career. One name etched into the history of the sport — forever.</div>
+  </div>
+</section>
+
+
+<!-- ═══ COLLAGE — career moments strip ════════════════════ -->
+<section class="s-photo-break reveal-section" style="height:clamp(280px,45vw,580px)" aria-label="Career photo gallery">
+  <img src="img-collage.png" alt="A collage of ten defining Kobe Bryant career moments spanning twenty seasons" loading="lazy"/>
+  <div class="pb-overlay" aria-hidden="true"></div>
   <div class="pb-text" aria-hidden="true">
     <span>MAMBA</span><span>FOREVER</span>
   </div>
 </section>
 
-<!-- TRIBUTE -->
-<section class="s-tribute reveal-section" aria-label="Tribute">
+<!-- ═══ TRIBUTE QUOTE ══════════════════════════════════════ -->
+<section class="s-tribute reveal-section" aria-label="Final tribute">
   <div class="wrap">
     <div class="tribute-inner stagger-parent">
       <div class="tribute-nums" aria-hidden="true">
         <span>8</span><span class="tn-sep">·</span><span>24</span>
       </div>
-      <blockquote class="tribute-quote stagger-parent">
-        <p class="stagger-child">"The most important thing is to try and inspire people so that they can be great in whatever they want to do."</p>
+      <div class="tribute-quote stagger-parent">
+        <blockquote>
+          <p class="stagger-child">"The most important thing is to try and inspire people so that they can be great in whatever they want to do."</p>
+        </blockquote>
         <cite class="stagger-child">— Kobe Bryant</cite>
-      </blockquote>
+      </div>
       <div class="tribute-mamba stagger-child" aria-label="Mamba Out">MAMBA OUT. 🐍</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ════════════════════════════════════════════════ -->
+<section class="s-cta reveal-section" aria-label="Explore more">
+  <div class="cta-bg" aria-hidden="true">
+    <img src="img-spotlight.png" alt=""/>
+    <div class="cta-overlay"></div>
+    <div class="hl-grain"></div>
+  </div>
+  <div class="wrap">
+    <div class="cta-inner stagger-parent">
+      <div class="cta-left">
+        <h2 class="stagger-child">Explore<br>the Legend</h2>
+        <p class="stagger-child">Read the full biography, revisit the career highlights, or get in touch to share your own Kobe story.</p>
+      </div>
+      <nav class="cta-right stagger-child" aria-label="Explore navigation">
+        <a href="about.html" class="btn-gold">
+          <span>Full Biography</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="index.html" class="btn-outline">Career Highlights</a>
+        <a href="contact.html" class="text-arrow">
+          Share Your Kobe Story
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </nav>
     </div>
   </div>
 </section>
 
 </main>
 
-<footer class="site-footer"><div class="wrap"><div class="footer-grid">
-  <div class="footer-brand"><span class="fb-num" aria-hidden="true">24</span><div class="fb-text"><span class="fb-name">KOBE BEAN BRYANT</span><span class="fb-dates">August 23, 1978 — January 26, 2020</span></div></div>
-  <nav class="footer-nav" aria-label="Footer links"><a href="index.html">Home</a><a href="about.html">About</a><a href="now.html">Legacy</a><a href="contact.html">Contact</a></nav>
-  <p class="footer-copy">© TanayG. 2025 &nbsp;·&nbsp; In loving memory of Kobe &amp; Gianna Bryant</p>
-</div></div></footer>
-<button id="back-top" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<footer class="site-footer" aria-label="Site footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="fb-num" aria-hidden="true">24</span>
+        <div class="fb-text"><span class="fb-name">KOBE BEAN BRYANT</span><span class="fb-dates">August 23, 1978 — January 26, 2020</span></div>
+      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="index.html">Home</a><a href="about.html">About</a><a href="now.html">Legacy</a><a href="contact.html">Contact</a>
+      </nav>
+      <div class="footer-mamba"><span class="fm-text">MAMBA FOREVER</span><span class="fm-nums" aria-hidden="true">8 · 24</span></div>
+      <p class="footer-copy">© TanayG. 2025 · Tribute website, not affiliated with the Bryant family or NBA.<br>In loving memory of Kobe &amp; Gianna Bryant 🐍</p>
+    </div>
+  </div>
+</footer>
+
+<button id="back-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
 <script src="main.js"></script>
-  <script src="transition.js"></script>
-</body></html>
+<script src="transition.js"></script>
+</body>
+</html>
