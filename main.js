@@ -1086,3 +1086,206 @@ console.log(
 })();
 
 console.log('%c[KobeSite] All systems initialised. Mamba Out. 🐍', 'color:#FDB927;font-family:monospace;font-size:12px');
+
+/* ═══════════════════════════════════════════════════════════
+   IMAGE SYSTEM — Complete observer & lazy-load engine
+   Works with images.css focal points and picture elements
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── IMG-IN-VIEW: fires Ken Burns + content animations ──── */
+(function initImgInView() {
+  const targets = [
+    '.s-fullbleed',
+    '.s-diptych .dip-panel',
+    '.gallery-img-wrap',
+    '.s-photo-break',
+    '.s-cta',
+    '.s-memorial',
+    '.page-hero-section',
+    '.s-contact-hero',
+    '.intro-img-col',
+  ];
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('img-in-view');
+      obs.unobserve(e.target);
+    });
+  }, { threshold: 0.06, rootMargin: '0px 0px -40px 0px' });
+
+  targets.forEach(sel => {
+    document.querySelectorAll(sel).forEach(el => obs.observe(el));
+  });
+
+  // Also observe the intro-img-col badge trigger
+  document.querySelectorAll('.intro-img-col').forEach(el => {
+    const badge = el.querySelector('.intro-img-badge');
+    if (badge) {
+      new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) el.classList.add('img-in-view');
+      }, { threshold: 0.15 }).observe(el);
+    }
+  });
+})();
+
+/* ── LAZY IMAGE FADE-IN (replaces old initImageFadeIn) ───── */
+(function initLazyFade() {
+  // Mark all lazy images as loading
+  document.querySelectorAll('img[loading="lazy"]').forEach(img => {
+    if (img.complete && img.naturalWidth > 0) {
+      img.classList.add('img-loaded', 'loaded');
+      return;
+    }
+    img.classList.add('img-loading');
+    const onLoad = () => {
+      img.classList.remove('img-loading');
+      img.classList.add('img-loaded', 'loaded');
+    };
+    img.addEventListener('load', onLoad, { once: true });
+    img.addEventListener('error', () => img.classList.add('img-loaded'), { once: true });
+  });
+
+  // Also handle eager images
+  document.querySelectorAll('img:not([loading="lazy"])').forEach(img => {
+    if (img.complete) { img.classList.add('img-loaded', 'loaded'); return; }
+    img.addEventListener('load', () => img.classList.add('img-loaded', 'loaded'), { once: true });
+  });
+})();
+
+/* ── GALLERY LIGHTBOX (updated for <picture> elements) ───── */
+(function initGalleryLightbox() {
+  const wrap   = document.getElementById('gallery-img-wrap');
+  const expand = document.getElementById('gc-expand');
+  if (!wrap) return;
+
+  const openLB = () => {
+    // Get the img inside the picture element
+    const img = wrap.querySelector('img');
+    if (!img) return;
+
+    const lb = document.createElement('div');
+    lb.className = 'kb-lightbox';
+    lb.setAttribute('role', 'dialog');
+    lb.setAttribute('aria-modal', 'true');
+    lb.setAttribute('aria-label', 'Photo gallery — full size');
+
+    lb.innerHTML = `
+      <div class="lb-backdrop"></div>
+      <div class="lb-inner">
+        <picture>
+          <source srcset="${img.src.replace('.png','.webp').replace(/^img-/,'img/img-')}" type="image/webp"/>
+          <img src="${img.src}" alt="${img.alt}" class="lb-img"/>
+        </picture>
+        <button class="lb-close" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+        <p class="lb-caption">${(img.alt||'').split('—')[0].trim()}</p>
+      </div>`;
+
+    document.body.appendChild(lb);
+    document.body.style.overflow = 'hidden';
+
+    requestAnimationFrame(() => requestAnimationFrame(() => lb.classList.add('lb-open')));
+
+    const close = () => {
+      lb.classList.remove('lb-open');
+      setTimeout(() => { lb.remove(); document.body.style.overflow = ''; }, 420);
+    };
+
+    lb.querySelector('.lb-backdrop').addEventListener('click', close);
+    lb.querySelector('.lb-close').addEventListener('click', close);
+    document.addEventListener('keydown', function h(e) {
+      if (e.key === 'Escape') { close(); document.removeEventListener('keydown', h); }
+    });
+    lb.querySelector('.lb-close').focus();
+  };
+
+  // Trigger from expand button
+  if (expand) expand.addEventListener('click', openLB);
+
+  // Trigger from clicking gallery image
+  const img = wrap.querySelector('img');
+  if (img) {
+    img.style.cursor = 'zoom-in';
+    img.setAttribute('tabindex', '0');
+    img.setAttribute('role', 'button');
+    img.setAttribute('aria-label', 'Click to expand photo gallery');
+    img.addEventListener('click', openLB);
+    img.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLB(); }
+    });
+  }
+})();
+
+/* ── DIPTYCH PANELS — img-in-view trigger per panel ─────── */
+(function initDiptychObserver() {
+  const panelObs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (!e.isIntersecting) return;
+      setTimeout(() => e.target.classList.add('img-in-view'), i * 120);
+      panelObs.unobserve(e.target);
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.dip-panel').forEach(p => panelObs.observe(p));
+})();
+
+/* ── CINEMATIC FULLBLEED — stagger text content in ──────── */
+(function initFullbleedTextReveal() {
+  // fbc-eyebrow, fbc-title, fbc-sub already use CSS transitions
+  // triggered by .img-in-view class added by initImgInView above
+  // This just adds a slight delay between them via CSS (already handled)
+})();
+
+/* ── PHOTO BREAK — observer ─────────────────────────────── */
+(function initPhotoBreakObserver() {
+  document.querySelectorAll('.s-photo-break').forEach(el => {
+    new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) el.classList.add('img-in-view');
+    }, { threshold: 0.08 }).observe(el);
+  });
+})();
+
+/* ── PAGE HERO PARALLAX (phs-img) ───────────────────────── */
+(function initPageHeroParallax() {
+  if (!matchMedia('(prefers-reduced-motion:no-preference)').matches) return;
+
+  const heroes = document.querySelectorAll('.page-hero-section, .s-contact-hero');
+  if (!heroes.length) return;
+
+  let raf = false;
+  window.addEventListener('scroll', () => {
+    if (raf) return;
+    raf = true;
+    requestAnimationFrame(() => {
+      const sy = window.scrollY;
+      heroes.forEach(hero => {
+        const img = hero.querySelector('.phs-img, .coh-bg img');
+        if (!img) return;
+        const rect = hero.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+        const progress = -rect.top / window.innerHeight;
+        img.style.transform = `scale(1.05) translateY(${progress * 35}px)`;
+      });
+      raf = false;
+    });
+  }, { passive: true });
+})();
+
+/* ── kt24 ENTERING STATE — set before page loads ────────── */
+// The transition.js sets the overlay. We need #main to start
+// in the hidden state set by html.kt24-entering.
+// This runs on every page load.
+(function initKt24State() {
+  const html = document.documentElement;
+  // If transition overlay is covering (transform=0%), entering state applies
+  const overlay = document.getElementById('kt24-overlay');
+  if (overlay && (overlay.style.transform === 'translateY(0%)' || overlay.style.transform === 'translateY(0)')) {
+    html.classList.add('kt24-entering');
+  }
+})();
+
+console.log('%c[KobeSite v5] All systems live. Mamba Out 🐍', 'color:#FDB927;font-family:monospace;font-size:11px;');

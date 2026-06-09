@@ -1,0 +1,1105 @@
+/* ══════════════════════════════════════════════════════════════
+   KOBE BRYANT — PREMIUM IMAGE SYSTEM
+   Every image treatment, focal point, container, and effect.
+   Art direction: Nike × Apple × ESPN Documentary
+   ══════════════════════════════════════════════════════════════
+
+   FOCAL POINTS (confirmed from image analysis):
+   img-spotlight     : 65% 18%  — Kobe back-centre, jerseys top-right
+   img-hero          : 65% 25%  — Jersey #24 fills frame, crowd bg
+   img-wave          : 50% 20%  — Arms raised, crowd below
+   img-jersey-retire : 50% 22%  — Podium/jerseys in top half
+   img-espn          : 50% 15%  — Face + body top half (portrait)
+   img-thankyou      : 52% 28%  — Kobe face centre-left
+   img-celtics       : 50% 35%  — Kobe fist-pump centre
+   img-allstar2011   : 50% 30%  — Kobe walking, crowd lights
+   img-trophy2010    : 50% 35%  — Kobe + trophy centre
+   img-gianna-smile  : 50% 32%  — Faces centre-left
+   img-grid9         : 50% 50%  — 3×3 grid, use full
+   img-collage       : 50% 50%  — Mixed grid, use full
+   img-locker        : 50% 30%  — Kobe seated, upper-mid
+   img-mamba-academy : 50% 28%  — Kobe + Gigi faces upper
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── CSS CUSTOM PROPERTIES ───────────────────────────────────── */
+:root {
+  --img-radius-sm:   8px;
+  --img-radius-md:   16px;
+  --img-radius-lg:   24px;
+  --img-radius-xl:   32px;
+
+  /* Cinematic overlay presets */
+  --overlay-hero:
+    linear-gradient(90deg,
+      rgba(7,7,7,.96) 0%,
+      rgba(7,7,7,.72) 35%,
+      rgba(7,7,7,.22) 62%,
+      rgba(7,7,7,.48) 100%),
+    linear-gradient(180deg,
+      rgba(7,7,7,.42) 0%,
+      transparent 22%,
+      transparent 60%,
+      rgba(7,7,7,.95) 100%);
+
+  --overlay-cinematic:
+    linear-gradient(180deg,
+      rgba(7,7,7,.38) 0%,
+      transparent 28%,
+      transparent 62%,
+      rgba(7,7,7,.88) 100%);
+
+  --overlay-card:
+    linear-gradient(180deg,
+      transparent 40%,
+      rgba(7,7,7,.7) 75%,
+      rgba(7,7,7,.92) 100%);
+
+  --overlay-diptych:
+    linear-gradient(180deg,
+      rgba(7,7,7,.18) 0%,
+      transparent 30%,
+      transparent 52%,
+      rgba(7,7,7,.85) 100%);
+
+  --overlay-editorial:
+    linear-gradient(180deg,
+      rgba(7,7,7,.22) 0%,
+      transparent 20%,
+      transparent 55%,
+      rgba(7,7,7,.98) 100%);
+
+  /* Grain texture */
+  --grain-url: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='.055'/%3E%3C/svg%3E");
+}
+
+/* ══════════════════════════════════════════════════════════════
+   1. UNIVERSAL IMAGE RESETS
+   ══════════════════════════════════════════════════════════════ */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  /* Prevent layout shift */
+  content-visibility: auto;
+}
+
+/* All images that fill a container */
+.img-fill {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--fp, 50% 50%);
+  display: block;
+}
+
+/* Fade-in on load (applied by JS) */
+img.img-loading {
+  opacity: 0;
+  filter: blur(6px) brightness(.85);
+  transition: opacity .7s ease, filter .7s ease;
+}
+img.img-loaded {
+  opacity: 1;
+  filter: none;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   2. HERO IMAGES
+   Full-screen cinematic presentations. Spotlight, Hero, Wave.
+   ══════════════════════════════════════════════════════════════ */
+
+/* Base hero scene wrapper */
+.hero-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Hero image layer */
+.hero-img-layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+/* THE hero image */
+.hero-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 65% 25%;   /* Right side — shows jersey #24 */
+  transform: scale(1.06);
+  transition: transform 10s ease-out;
+  will-change: transform;
+  /* Subtle cinematic grade */
+  filter: contrast(1.06) saturate(0.88) brightness(0.95);
+}
+.hero-loaded .hero-bg-img {
+  transform: scale(1);
+}
+
+/* Film grain overlay */
+.hero-grain {
+  position: absolute;
+  inset: 0;
+  background-image: var(--grain-url);
+  background-size: 200px;
+  animation: grainShift 1.4s steps(2) infinite;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  opacity: 0.7;
+  z-index: 3;
+}
+@keyframes grainShift {
+  0%   { transform: translate(0,    0   ) }
+  25%  { transform: translate(-2%, -3%  ) }
+  50%  { transform: translate( 3%,  1%  ) }
+  75%  { transform: translate(-1%,  4%  ) }
+  100% { transform: translate( 2%, -2%  ) }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-grain { animation: none; }
+}
+
+/* Vignette — focuses eye on left where content lives */
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 90% 80% at 72% 50%,
+    transparent 22%,
+    rgba(7,7,7,.75) 100%
+  );
+  z-index: 2;
+}
+
+/* Main gradient — text readability + cinematic depth */
+.hero-grad {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay-hero);
+  z-index: 2;
+}
+
+/* CRT scanlines — subtle film texture */
+.hero-scan {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,.018) 2px,
+    rgba(0,0,0,.018) 4px
+  );
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Cinematic letter-box bars */
+.hero-bar {
+  position: absolute;
+  left: 0; right: 0;
+  background: #000;
+  z-index: 4;
+}
+.hero-bar.top    { top: 0;    height: clamp(14px, 3vh, 44px); }
+.hero-bar.bottom { bottom: 0; height: clamp(14px, 3vh, 44px); }
+
+/* ══════════════════════════════════════════════════════════════
+   3. MEMORIAL / PAGE HERO IMAGES
+   Used in now.html memorial, about.html page header
+   ══════════════════════════════════════════════════════════════ */
+
+.mem-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.mem-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 65% 25%;   /* Jersey + crowd visible */
+  /* Desaturate + slight darken for solemnity */
+  filter: grayscale(0.28) contrast(1.04) brightness(0.88);
+  transform: scale(1.04);
+  transition: transform 12s ease-out;
+  will-change: transform;
+}
+.s-memorial.img-in-view .mem-photo {
+  transform: scale(1);
+}
+
+.mem-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg,
+      rgba(7,7,7,.97) 0%,
+      rgba(7,7,7,.82) 40%,
+      rgba(7,7,7,.35) 100%),
+    linear-gradient(180deg,
+      rgba(7,7,7,.5) 0%,
+      transparent 28%,
+      transparent 62%,
+      rgba(7,7,7,.92) 100%);
+}
+
+/* Page-hero (about / contact headers) */
+.phs-layers {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.phs-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 18%;   /* Face/upper-body visible */
+  filter: contrast(1.04) saturate(0.82) brightness(0.9);
+  transform: scale(1.05);
+  transition: transform 8s ease-out;
+  will-change: transform;
+}
+.page-hero-section.img-in-view .phs-img {
+  transform: scale(1);
+}
+
+.phs-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 85% 80% at 80% 38%,
+    transparent 18%,
+    rgba(7,7,7,.7) 100%
+  );
+}
+
+.phs-gradient {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg,
+      rgba(7,7,7,.96) 0%,
+      rgba(7,7,7,.72) 44%,
+      rgba(7,7,7,.18) 100%),
+    linear-gradient(180deg,
+      rgba(7,7,7,.38) 0%,
+      transparent 30%,
+      transparent 52%,
+      rgba(7,7,7,1) 100%);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   4. EDITORIAL SPLIT IMAGE (ESPN portrait)
+   Left panel in intro split — portrait 0.80 AR
+   ══════════════════════════════════════════════════════════════ */
+
+.intro-img-col {
+  position: relative;
+  overflow: hidden;
+  /* Constrain to viewport height on desktop */
+  min-height: clamp(420px, 55vw, 100vh);
+}
+
+.intro-img-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.intro-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* ESPN cover: face + upper body — position toward top */
+  object-position: 50% 12%;
+  filter: contrast(1.05) saturate(0.86) brightness(0.92);
+  transition: transform .7s cubic-bezier(.16,1,.3,1);
+  will-change: transform;
+}
+
+.intro-img-col:hover .intro-img {
+  transform: scale(1.03);
+}
+
+/* Badge overlay on editorial image */
+.intro-img-badge {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: .2rem;
+  background: rgba(7,7,7,.82);
+  backdrop-filter: blur(10px) saturate(1.4);
+  -webkit-backdrop-filter: blur(10px) saturate(1.4);
+  padding: .85rem 1.1rem;
+  border-left: 2.5px solid var(--gold);
+  /* Subtle entrance */
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity .6s .3s ease, transform .6s .3s cubic-bezier(.16,1,.3,1);
+}
+.intro-img-col.img-in-view .intro-img-badge {
+  opacity: 1;
+  transform: translateX(0);
+}
+.iib-top {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--gold);
+  line-height: 1;
+  letter-spacing: .05em;
+}
+.iib-bot {
+  font-family: var(--font-mono);
+  font-size: .64rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+/* Gold glow bloom at bottom of editorial image */
+.intro-img-glow {
+  position: absolute;
+  bottom: -10%;
+  left: -10%;
+  width: 120%;
+  height: 50%;
+  background: radial-gradient(
+    ellipse at 50% 100%,
+    rgba(253,185,39,.14) 0%,
+    transparent 68%
+  );
+  pointer-events: none;
+  animation: imgGlowPulse 4s ease-in-out infinite;
+}
+@keyframes imgGlowPulse {
+  0%,100% { opacity: .6; }
+  50%      { opacity: 1; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   5. FULL-BLEED CINEMATIC SECTIONS
+   Thankyou, Celtics, AllStar, Trophy, Gianna, Wave
+   ══════════════════════════════════════════════════════════════ */
+
+.s-fullbleed {
+  position: relative;
+  /* Responsive height: tall on desktop, comfortable on mobile */
+  height: clamp(380px, 52vw, 720px);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  isolation: isolate;
+}
+
+/* Force specific heights for emotionally significant moments */
+.s-fullbleed.fb-tall {
+  height: clamp(480px, 65vw, 860px);
+}
+.s-fullbleed.fb-short {
+  height: clamp(300px, 36vw, 520px);
+}
+
+.fb-img-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.fb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--fp, 50% 30%);
+  filter: contrast(1.05) saturate(0.88) brightness(0.92);
+  transform: scale(1.06);
+  transition: transform 0.8s cubic-bezier(.16,1,.3,1);
+  will-change: transform;
+}
+
+/* Ken Burns: image fully scales to 1 when section enters viewport */
+.s-fullbleed.img-in-view .fb-img {
+  transform: scale(1);
+  transition: transform 9s ease-out;
+}
+
+/* Hover: subtle push-in */
+.s-fullbleed:hover .fb-img {
+  transform: scale(1.025);
+  transition: transform .9s cubic-bezier(.16,1,.3,1);
+}
+
+/* Overlay variants */
+.fb-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--overlay-cinematic);
+}
+.fb-overlay-hero {
+  background: var(--overlay-hero);
+}
+.fb-overlay-purple {
+  background:
+    linear-gradient(90deg,
+      rgba(55,18,110,.88) 0%,
+      rgba(7,7,7,.68) 50%,
+      rgba(7,7,7,.18) 100%),
+    linear-gradient(180deg,
+      rgba(7,7,7,.35) 0%,
+      transparent 28%,
+      transparent 60%,
+      rgba(7,7,7,.88) 100%);
+}
+.fb-overlay-top {
+  background: linear-gradient(
+    180deg,
+    rgba(7,7,7,.0) 0%,
+    transparent 25%,
+    transparent 52%,
+    rgba(7,7,7,.78) 100%
+  );
+}
+
+/* Grain on all cinematic sections */
+.fb-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--grain-url);
+  background-size: 200px;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  opacity: 0.4;
+}
+
+/* Content positioned over cinematic image */
+.fb-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 clamp(1.5rem, 5vw, 5.5rem);
+}
+.fb-content-right  { margin-left: auto; text-align: right; }
+.fb-content-center { margin: 0 auto;    text-align: center; }
+
+.fbc-eyebrow {
+  font-family: var(--font-mono);
+  font-size: clamp(.62rem, .9vw, .75rem);
+  font-weight: 400;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: .75rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.fbc-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8.5vw, 8rem);
+  line-height: .88;
+  letter-spacing: .02em;
+  color: var(--ink);
+  margin-bottom: .75rem;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .7s .1s ease, transform .7s .1s cubic-bezier(.16,1,.3,1);
+}
+.fbc-sub {
+  font-family: var(--font-serif);
+  font-size: clamp(.88rem, 1.5vw, 1.15rem);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--ink-muted);
+  max-width: 420px;
+  line-height: 1.65;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .6s .2s ease, transform .6s .2s ease;
+}
+.fb-content-right .fbc-sub { margin-left: auto; }
+.fb-content-center .fbc-sub { margin: 0 auto; }
+
+/* Animate in when in viewport */
+.s-fullbleed.img-in-view .fbc-eyebrow,
+.s-fullbleed.img-in-view .fbc-title,
+.s-fullbleed.img-in-view .fbc-sub {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   6. DIPTYCH — Two-panel side-by-side
+   Locker Room vs Championship
+   ══════════════════════════════════════════════════════════════ */
+
+.s-diptych {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* Responsive height */
+  height: clamp(300px, 42vw, 620px);
+  overflow: hidden;
+  gap: 2px;           /* hairline separator */
+  background: var(--bg);
+}
+
+.dip-panel {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.dip-panel img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--fp, 50% 30%);
+  filter: contrast(1.04) saturate(0.86) brightness(0.88);
+  transform: scale(1.07);
+  transition:
+    transform .9s cubic-bezier(.16,1,.3,1),
+    filter .5s ease;
+  will-change: transform;
+}
+
+/* Each panel enters with Ken Burns */
+.dip-panel.img-in-view img {
+  transform: scale(1);
+}
+
+/* Hover: slight zoom + brighten */
+.dip-panel:hover img {
+  transform: scale(1.04);
+  filter: contrast(1.06) saturate(0.95) brightness(0.93);
+}
+
+.dip-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay-diptych);
+  z-index: 1;
+  transition: background .5s ease;
+}
+.dip-panel:hover .dip-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(7,7,7,.12) 0%,
+    transparent 28%,
+    transparent 48%,
+    rgba(7,7,7,.78) 100%
+  );
+}
+
+.dip-text {
+  position: absolute;
+  bottom: 0;
+  left: 0; right: 0;
+  padding: 1.75rem 2rem;
+  z-index: 2;
+  transform: translateY(4px);
+  transition: transform .45s cubic-bezier(.16,1,.3,1);
+}
+.dip-panel:hover .dip-text {
+  transform: translateY(0);
+}
+
+.dip-label {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.8vw, 2rem);
+  letter-spacing: .1em;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: .4rem;
+}
+.dip-caption {
+  font-family: var(--font-mono);
+  font-size: clamp(.68rem, 1vw, .78rem);
+  font-weight: 300;
+  color: var(--ink-muted);
+  line-height: 1.55;
+  max-width: 340px;
+}
+
+/* Mobile: stack vertically */
+@media (max-width: 640px) {
+  .s-diptych {
+    grid-template-columns: 1fr;
+    height: auto;
+    gap: 1px;
+  }
+  .dip-panel {
+    height: clamp(240px, 56vw, 380px);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   7. GALLERY IMAGE (grid9 + collage)
+   ══════════════════════════════════════════════════════════════ */
+
+/* Gallery wrapper — responsive aspect-ratio container */
+.gallery-img-wrap {
+  position: relative;
+  overflow: hidden;
+  /* Enforce consistent aspect ratio — avoid fixed heights */
+  aspect-ratio: 3 / 2;
+  /* Clamp to reasonable viewport heights */
+  max-height: clamp(320px, 52vw, 700px);
+  isolation: isolate;
+  cursor: zoom-in;
+}
+
+/* Override legacy fixed height */
+.gallery-img-wrap[style*="height"] {
+  height: auto !important;
+}
+
+.gallery-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;   /* Grid: use full frame */
+  filter: contrast(1.04) saturate(0.88);
+  transform: scale(1.04);
+  transition: transform .9s cubic-bezier(.16,1,.3,1), filter .5s ease;
+  will-change: transform;
+}
+
+.gallery-img-wrap.img-in-view .gallery-img {
+  transform: scale(1);
+}
+
+.gallery-img-wrap:hover .gallery-img {
+  transform: scale(1.032);
+  filter: contrast(1.06) saturate(0.94);
+}
+
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg,
+      rgba(7,7,7,.35) 0%,
+      transparent 22%,
+      transparent 68%,
+      rgba(7,7,7,.55) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Zoom icon that appears on hover */
+.gallery-img-wrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    radial-gradient(circle at 50% 50%,
+      rgba(253,185,39,.08) 0%,
+      transparent 60%);
+  opacity: 0;
+  transition: opacity .4s ease;
+  pointer-events: none;
+}
+.gallery-img-wrap:hover::after {
+  opacity: 1;
+}
+
+/* Caption bar below gallery */
+.gallery-caption {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.1rem clamp(1.25rem, 4vw, 3rem);
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+.gc-num {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--gold);
+  line-height: 1;
+  flex-shrink: 0;
+}
+.gc-text {
+  font-family: var(--font-mono);
+  font-size: .76rem;
+  letter-spacing: .07em;
+  color: var(--ink-muted);
+  flex: 1;
+  line-height: 1.55;
+}
+.gc-expand {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--ink-muted);
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  font-weight: 400;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .5rem 1rem;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color .25s, color .25s, transform .2s var(--ease-out);
+}
+.gc-expand svg { width: 13px; height: 13px; }
+.gc-expand:hover { border-color: var(--gold); color: var(--gold); transform: scale(1.04); }
+
+/* ══════════════════════════════════════════════════════════════
+   8. PHOTO BREAK — full-bleed collage strip
+   ══════════════════════════════════════════════════════════════ */
+
+.s-photo-break {
+  position: relative;
+  /* Aspect ratio: 3:2 collage — don't use fixed height */
+  aspect-ratio: 3 / 2;
+  max-height: clamp(280px, 48vw, 640px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Remove any inline height overrides */
+.s-photo-break[style*="height"] {
+  height: auto !important;
+  max-height: clamp(280px, 48vw, 640px) !important;
+}
+
+.s-photo-break img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 50%;
+  filter: contrast(1.04) saturate(0.85) brightness(0.9);
+  transform: scale(1.05);
+  transition: transform .9s cubic-bezier(.16,1,.3,1);
+  will-change: transform;
+}
+.s-photo-break.img-in-view img {
+  transform: scale(1);
+}
+.s-photo-break:hover img {
+  transform: scale(1.025);
+}
+
+.pb-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg,
+      rgba(7,7,7,.42) 0%,
+      transparent 22%,
+      transparent 68%,
+      rgba(7,7,7,.58) 100%);
+  z-index: 1;
+}
+
+.pb-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  z-index: 2;
+  gap: .1em;
+}
+.pb-text span {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 9.5vw, 8.5rem);
+  color: rgba(253,185,39,.065);
+  letter-spacing: .12em;
+  line-height: 1.08;
+  white-space: nowrap;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   9. CTA BACKGROUND IMAGE
+   ══════════════════════════════════════════════════════════════ */
+
+.cta-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.cta-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 65% 25%;   /* Jersey back — evocative */
+  filter: grayscale(.45) contrast(.95) brightness(.82);
+  transform: scale(1.04);
+  transition: transform 8s ease-out;
+  will-change: transform;
+}
+.s-cta.img-in-view .cta-bg img {
+  transform: scale(1);
+}
+
+.cta-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg,
+      rgba(7,7,7,.97) 0%,
+      rgba(7,7,7,.90) 45%,
+      rgba(7,7,7,.78) 100%);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   10. CONTACT HERO IMAGE
+   ══════════════════════════════════════════════════════════════ */
+
+.coh-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.coh-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Jersey-retirement: focus on upper podium area */
+  object-position: 50% 18%;
+  filter: contrast(1.04) saturate(0.8) brightness(0.85);
+  transform: scale(1.05);
+  transition: transform 8s ease-out;
+  will-change: transform;
+}
+.s-contact-hero.img-in-view .coh-bg img {
+  transform: scale(1);
+}
+
+.coh-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg,
+      rgba(7,7,7,.96) 0%,
+      rgba(7,7,7,.72) 48%,
+      rgba(7,7,7,.28) 100%),
+    linear-gradient(180deg,
+      rgba(7,7,7,.32) 0%,
+      transparent 28%,
+      transparent 52%,
+      rgba(7,7,7,1) 100%);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   11. MAMBA ACADEMY SPLIT IMAGE (now.html)
+   Portrait of Kobe coaching Gianna
+   ══════════════════════════════════════════════════════════════ */
+
+/* The intro-img within s-intro used on now.html */
+.s-intro .intro-img {
+  object-position: 50% 22%;   /* Upper bodies, faces visible */
+}
+
+/* ══════════════════════════════════════════════════════════════
+   12. LIGHTBOX
+   ══════════════════════════════════════════════════════════════ */
+
+.kb-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity .4s cubic-bezier(.16,1,.3,1);
+}
+.kb-lightbox.lb-open { opacity: 1; }
+
+.lb-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.94);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  cursor: zoom-out;
+}
+
+.lb-inner {
+  position: relative;
+  z-index: 1;
+  max-width: min(92vw, 1200px);
+  max-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  transform: scale(.92) translateY(8px);
+  transition: transform .45s cubic-bezier(.16,1,.3,1);
+}
+.kb-lightbox.lb-open .lb-inner {
+  transform: scale(1) translateY(0);
+}
+
+.lb-img {
+  max-width: 100%;
+  max-height: 84vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--img-radius-md);
+  box-shadow:
+    0 40px 100px rgba(0,0,0,.75),
+    0 0 0 1px rgba(255,255,255,.06);
+}
+
+.lb-close {
+  position: absolute;
+  top: -3.25rem;
+  right: 0;
+  width: 42px;
+  height: 42px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.18);
+  border-radius: 50%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background .2s, transform .3s cubic-bezier(.34,1.56,.64,1);
+}
+.lb-close:hover {
+  background: rgba(253,185,39,.3);
+  transform: rotate(90deg) scale(1.1);
+}
+.lb-close svg { width: 18px; height: 18px; }
+
+.lb-caption {
+  font-family: var(--font-mono);
+  font-size: .72rem;
+  letter-spacing: .08em;
+  color: rgba(255,255,255,.48);
+  text-align: center;
+  max-width: 620px;
+  line-height: 1.55;
+  padding: 0 1rem;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   13. RESPONSIVE OVERRIDES
+   ══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .s-fullbleed { height: clamp(320px, 50vw, 620px); }
+  .s-fullbleed.fb-tall { height: clamp(400px, 58vw, 700px); }
+}
+
+@media (max-width: 768px) {
+  /* Hero: shift focal point for portrait viewport */
+  .hero-bg-img { object-position: 72% 22%; }
+  .s-fullbleed { height: clamp(280px, 58vw, 480px); }
+  .gallery-img-wrap { max-height: clamp(240px, 65vw, 420px); }
+  /* Intro: stack on mobile */
+  .intro-img-col .intro-img-sticky {
+    height: clamp(280px, 60vw, 400px);
+    position: relative;
+  }
+  .intro-img { object-position: 50% 18%; }
+  .s-photo-break { max-height: clamp(220px, 60vw, 380px); }
+  .dip-panel img { object-position: 50% 25%; }
+  .mem-photo { object-position: 60% 22%; }
+  .fbc-title { font-size: clamp(2.5rem, 9vw, 5rem); }
+}
+
+@media (max-width: 480px) {
+  .hero-bg-img { object-position: 78% 20%; }
+  .s-fullbleed { height: clamp(240px, 70vw, 360px); }
+  .gallery-img-wrap { max-height: none; aspect-ratio: 4/3; }
+  .fbc-eyebrow,
+  .fbc-title,
+  .fbc-sub { opacity: 1 !important; transform: none !important; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   14. ULTRA-WIDE SUPPORT (2560px+)
+   ══════════════════════════════════════════════════════════════ */
+
+@media (min-width: 2400px) {
+  .s-fullbleed { height: clamp(600px, 32vw, 900px); }
+  .gallery-img-wrap { max-height: 800px; }
+  .s-photo-break { max-height: 700px; }
+  .hero-bg-img { object-position: 58% 22%; }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   15. LOADING STATES & PERFORMANCE
+   ══════════════════════════════════════════════════════════════ */
+
+/* Skeleton shimmer while image loads */
+.img-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface) 0%,
+    var(--surface2) 50%,
+    var(--surface) 100%
+  );
+  background-size: 200% 100%;
+  animation: skelShimmer 1.5s ease-in-out infinite;
+}
+@keyframes skelShimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .img-skeleton { animation: none; }
+}
+
+/* Native lazy-load fade */
+img[loading="lazy"] {
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+img[loading="lazy"].img-loaded,
+img[loading="lazy"].loaded {
+  opacity: 1;
+}
+
+/* Prevent layout shift for all known aspect ratios */
+.aspect-16-9  { aspect-ratio: 16/9;  }
+.aspect-3-2   { aspect-ratio: 3/2;   }
+.aspect-4-3   { aspect-ratio: 4/3;   }
+.aspect-1-1   { aspect-ratio: 1/1;   }
+.aspect-portrait { aspect-ratio: 4/5; }
+
+/* ══════════════════════════════════════════════════════════════
+   16. LIGHT MODE IMAGE ADJUSTMENTS
+   ══════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] .hero-bg-img {
+  filter: contrast(1.04) saturate(.92) brightness(.88);
+}
+[data-theme="light"] .fb-img {
+  filter: contrast(1.03) saturate(.9) brightness(.85);
+}
+[data-theme="light"] .mem-photo {
+  filter: grayscale(.22) contrast(1.02) brightness(.82);
+}
+[data-theme="light"] .phs-img {
+  filter: contrast(1.02) saturate(.88) brightness(.82);
+}
+[data-theme="light"] .intro-img {
+  filter: contrast(1.03) saturate(.88) brightness(.88);
+}

@@ -9,9 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="styles.css"/>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/MotionPathPlugin.min.js"></script>
-  <script>if(typeof gsap!=='undefined'&&typeof MotionPathPlugin!=='undefined'){gsap.registerPlugin(MotionPathPlugin);}</script>
+  <link rel="stylesheet" href="images.css"/>
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to content</a>
@@ -41,7 +39,12 @@
 <!-- ═══ PAGE HERO — ESPN Magazine cover ═══════════════════ -->
 <section class="page-hero-section" aria-label="About Kobe Bryant">
   <div class="phs-layers" aria-hidden="true">
-    <img src="img-espn.png" alt="" class="phs-img" fetchpriority="high"/>
+    <picture>
+        <source srcset="img/img-espn.webp" type="image/webp"/>
+        <img src="img-espn.png" alt="" class="phs-img img-fill" style="--fp:50% 15%;object-position:var(--fp);object-position:var(--fp)" loading="lazy" fetchpriority="high"/>
+      </picture>
+        </picture>
+        </picture>
     <div class="phs-vignette"></div>
     <div class="phs-gradient"></div>
     <div class="hl-grain"></div>
@@ -109,7 +112,12 @@
 <!-- ═══ DIPTYCH — Locker Room + Thank You Night ══════════ -->
 <section class="s-diptych reveal-section" aria-label="Private moments and public farewell">
   <div class="dip-panel">
-    <img src="img-locker.png" alt="Kobe Bryant seated alone in the Lakers locker room, head bowed in focus — DISCIPLINE poster on the wall, #24 jersey hanging behind him" loading="lazy"/>
+    <picture>
+        <source srcset="img/img-locker.webp" type="image/webp"/>
+        <img src="img-locker.png" alt="Kobe Bryant seated alone in the Lakers locker room, head bowed in focus — DISCIPLINE poster on the wall, #24 jersey hanging behind him" style="--fp:50% 30%;object-position:var(--fp);object-position:var(--fp)" loading="lazy"/>
+      </picture>
+        </picture>
+        </picture>
     <div class="dip-overlay" aria-hidden="true"></div>
     <div class="dip-text">
       <div class="dip-label">DISCIPLINE</div>
@@ -117,7 +125,12 @@
     </div>
   </div>
   <div class="dip-panel">
-    <img src="img-thankyou.png" alt="Kobe Bryant smiling and touching his chest in gratitude — #ThankYouKobe on the scoreboard above, confetti falling, final game April 13 2016" loading="lazy"/>
+    <picture>
+        <source srcset="img/img-thankyou.webp" type="image/webp"/>
+        <img src="img-thankyou.png" alt="Kobe Bryant smiling and touching his chest in gratitude — #ThankYouKobe on the scoreboard above, confetti falling, final game April 13 2016" style="--fp:52% 28%;object-position:var(--fp);object-position:var(--fp)" loading="lazy"/>
+      </picture>
+        </picture>
+        </picture>
     <div class="dip-overlay" aria-hidden="true"></div>
     <div class="dip-text">
       <div class="dip-label">#THANKYOUKOBE</div>
@@ -149,7 +162,12 @@
 <!-- ═══ FULL-BLEED — Championship 2010 ══════════════════ -->
 <section class="s-fullbleed reveal-section" aria-label="2010 NBA Championship">
   <div class="fb-img-wrap">
-    <img src="img-trophy2010.png" alt="Kobe Bryant holding the Larry O'Brien Trophy after winning his 5th NBA championship in 2010, laughing with teammates — pure joy and relief" loading="lazy" class="fb-img"/>
+    <picture>
+        <source srcset="img/img-trophy2010.webp" type="image/webp"/>
+        <img src="img-trophy2010.png" alt="Kobe Bryant holding the Larry O'Brien Trophy after winning his 5th NBA championship in 2010, laughing with teammates — pure joy and relief" class="fb-img img-fill" style="--fp:50% 35%;object-position:var(--fp);object-position:var(--fp)" loading="lazy"/>
+      </picture>
+        </picture>
+        </picture>
   </div>
   <div class="fb-overlay" aria-hidden="true"></div>
   <div class="fb-content fb-content-left">
@@ -161,7 +179,12 @@
 
 <!-- ═══ PHOTO BREAK — 9-grid career collage ═══════════════ -->
 <section class="s-photo-break reveal-section" style="height:65vw;max-height:700px;min-height:300px" aria-label="Career photographs collage">
-  <img src="img-grid9.png" alt="Nine defining career photographs of Kobe Bryant spanning his 20-season career" loading="lazy"/>
+  <picture>
+        <source srcset="img/img-grid9.webp" type="image/webp"/>
+        <img src="img-grid9.png" alt="Nine defining career photographs of Kobe Bryant spanning his 20-season career" style="--fp:50% 50%;object-position:var(--fp);object-position:var(--fp)" loading="lazy"/>
+      </picture>
+        </picture>
+        </picture>
   <div class="pb-overlay" aria-hidden="true"></div>
   <div class="pb-text" aria-hidden="true">
     <span>TWENTY</span><span>SEASONS</span><span>ONE</span><span>LEGEND</span>
@@ -171,7 +194,12 @@
 <!-- ═══ ALL-STAR — 2011 Los Angeles ═══════════════════════ -->
 <section class="s-fullbleed s-fullbleed-purple reveal-section" aria-label="NBA All-Star 2011">
   <div class="fb-img-wrap">
-    <img src="img-allstar2011.png" alt="Kobe Bryant entering the NBA All-Star 2011 arena in Los Angeles — thousands of fans holding up phone flashlights creating a galaxy effect, Kobe looking upward with quiet focus" loading="lazy" class="fb-img"/>
+    <picture>
+        <source srcset="img/img-allstar2011.webp" type="image/webp"/>
+        <img src="img-allstar2011.png" alt="Kobe Bryant entering the NBA All-Star 2011 arena in Los Angeles — thousands of fans holding up phone flashlights creating a galaxy effect, Kobe looking upward with quiet focus" class="fb-img img-fill" style="--fp:50% 30%;object-position:var(--fp);object-position:var(--fp)" loading="lazy"/>
+      </picture>
+        </picture>
+        </picture>
   </div>
   <div class="fb-overlay fb-overlay-purple" aria-hidden="true"></div>
   <div class="fb-content fb-content-right">
