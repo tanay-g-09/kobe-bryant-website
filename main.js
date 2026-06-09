@@ -1289,3 +1289,398 @@ console.log('%c[KobeSite] All systems initialised. Mamba Out. 🐍', 'color:#FDB
 })();
 
 console.log('%c[KobeSite v5] All systems live. Mamba Out 🐍', 'color:#FDB927;font-family:monospace;font-size:11px;');
+
+/* ══════════════════════════════════════════════════════════
+   AWWWARDS PANEL — FINAL POLISH ADDITIONS
+   All identified improvements implemented
+   ══════════════════════════════════════════════════════════ */
+
+/* ────────────────────────────────────────────────────────
+   HERO STATS BAR — subtle entrance stagger
+──────────────────────────────────────────────────────── */
+(function initHeroStats() {
+  const bar = document.querySelector('.hero-stats-bar');
+  if (!bar) return;
+  const items = bar.querySelectorAll('.hsb-item');
+  // Already animated by CSS — just ensure nums pulse on hover
+  items.forEach(item => {
+    const num = item.querySelector('.hsb-num');
+    if (!num) return;
+    item.addEventListener('mouseenter', () => {
+      num.style.transform = 'scale(1.08)';
+      num.style.transition = 'transform .25s cubic-bezier(.34,1.56,.64,1)';
+    });
+    item.addEventListener('mouseleave', () => {
+      num.style.transform = '';
+    });
+  });
+})();
+
+/* ────────────────────────────────────────────────────────
+   AMBIENT SOUND TOGGLE — subtle crowd ambience
+   Creates a gentle ambient audio experience referencing
+   the Staples Center — toggleable, off by default
+──────────────────────────────────────────────────────── */
+(function initAmbientSound() {
+  // Inject the ambient toggle button next to theme toggle
+  const navRight = document.querySelector('.nav-right');
+  if (!navRight) return;
+
+  const btn = document.createElement('button');
+  btn.id = 'ambient-btn';
+  btn.setAttribute('aria-label', 'Toggle ambient arena sound');
+  btn.setAttribute('aria-pressed', 'false');
+  btn.title = 'Arena Ambience';
+  btn.style.cssText = `
+    background:transparent; border:1px solid var(--border);
+    color:var(--ink-muted); width:36px; height:36px;
+    border-radius:50%; display:flex; align-items:center;
+    justify-content:center; font-size:.9rem;
+    transition:border-color .25s, color .25s, transform .3s cubic-bezier(.34,1.56,.64,1);
+    cursor:pointer;
+  `;
+  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:15px;height:15px" aria-hidden="true">
+    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+    <path id="amb-wave" d="M19.07 4.93a10 10 0 0 1 0 14.14" opacity="0"/>
+  </svg>`;
+
+  // Insert before theme button
+  const themeBtn = navRight.querySelector('#theme-btn');
+  if (themeBtn) navRight.insertBefore(btn, themeBtn);
+
+  let ctx = null, gainNode = null, playing = false;
+
+  const createAmbience = () => {
+    if (!window.AudioContext && !window.webkitAudioContext) return null;
+    const AC = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = new AC();
+    const master = audioCtx.createGain();
+    master.gain.setValueAtTime(0, audioCtx.currentTime);
+    master.connect(audioCtx.destination);
+
+    // Layer 1: crowd murmur (filtered noise)
+    const bufLen = audioCtx.sampleRate * 4;
+    const buf = audioCtx.createBuffer(1, bufLen, audioCtx.sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < bufLen; i++) data[i] = (Math.random() * 2 - 1) * 0.4;
+
+    const crowd = audioCtx.createBufferSource();
+    crowd.buffer = buf;
+    crowd.loop = true;
+
+    const filter = audioCtx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.value = 320;
+    filter.Q.value = 0.4;
+
+    const crowdGain = audioCtx.createGain();
+    crowdGain.gain.value = 0.18;
+
+    crowd.connect(filter);
+    filter.connect(crowdGain);
+    crowdGain.connect(master);
+    crowd.start();
+
+    // Layer 2: subtle low-frequency hum (arena HVAC)
+    const osc = audioCtx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.value = 58;
+    const oscGain = audioCtx.createGain();
+    oscGain.gain.value = 0.04;
+    osc.connect(oscGain);
+    oscGain.connect(master);
+    osc.start();
+
+    return { ctx: audioCtx, gain: master };
+  };
+
+  btn.addEventListener('click', async () => {
+    if (!playing) {
+      try {
+        if (!ctx) {
+          const result = createAmbience();
+          if (!result) { showToast('Audio not supported in this browser.'); return; }
+          ctx = result.ctx; gainNode = result.gain;
+        }
+        if (ctx.state === 'suspended') await ctx.resume();
+        gainNode.gain.cancelScheduledValues(ctx.currentTime);
+        gainNode.gain.setValueAtTime(gainNode.gain.value, ctx.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.6, ctx.currentTime + 1.5);
+        playing = true;
+        btn.setAttribute('aria-pressed', 'true');
+        btn.style.borderColor = 'var(--gold)';
+        btn.style.color = 'var(--gold)';
+        btn.querySelector('#amb-wave').style.opacity = '1';
+        btn.querySelector('#amb-wave').style.transition = 'opacity .4s';
+        showToast('🏟️ Arena ambience on');
+      } catch(e) {
+        showToast('Tap the page first to enable audio.');
+      }
+    } else {
+      gainNode.gain.cancelScheduledValues(ctx.currentTime);
+      gainNode.gain.setValueAtTime(gainNode.gain.value, ctx.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + 1.2);
+      playing = false;
+      btn.setAttribute('aria-pressed', 'false');
+      btn.style.borderColor = '';
+      btn.style.color = '';
+      btn.querySelector('#amb-wave').style.opacity = '0';
+      showToast('Arena ambience off');
+    }
+  });
+
+  // Pause when tab hidden, resume when visible
+  document.addEventListener('visibilitychange', () => {
+    if (!ctx || !playing) return;
+    if (document.hidden) {
+      gainNode.gain.linearRampToValueAtTime(0, ctx.currentTime + .5);
+    } else {
+      gainNode.gain.linearRampToValueAtTime(0.6, ctx.currentTime + 1);
+    }
+  });
+})();
+
+/* ────────────────────────────────────────────────────────
+   KEYBOARD SHORTCUTS — Power-user experience
+──────────────────────────────────────────────────────── */
+(function initKeyboardShortcuts() {
+  // Only show if user presses ? — don't interrupt typing
+  const isTyping = () => {
+    const el = document.activeElement;
+    return el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.contentEditable === 'true');
+  };
+
+  on(document, 'keydown', e => {
+    if (isTyping()) return;
+    switch(e.key) {
+      case '?':
+        showToast('⌨ Shortcuts: H=Home  A=About  L=Legacy  C=Contact  T=Top  M=Mamba');
+        break;
+      case 'h': case 'H':
+        if (!e.metaKey && !e.ctrlKey) window.location.href = 'index.html';
+        break;
+      case 'a': case 'A':
+        if (!e.metaKey && !e.ctrlKey) window.location.href = 'about.html';
+        break;
+      case 'l': case 'L':
+        if (!e.metaKey && !e.ctrlKey) window.location.href = 'now.html';
+        break;
+      case 'c': case 'C':
+        if (!e.metaKey && !e.ctrlKey && window.location.pathname.includes('index')) window.location.href = 'contact.html';
+        break;
+      case 't': case 'T':
+        if (!e.metaKey && !e.ctrlKey) window.scrollTo({ top: 0, behavior: 'smooth' });
+        break;
+    }
+  });
+})();
+
+/* ────────────────────────────────────────────────────────
+   ACTIVE SECTION HIGHLIGHT — nav link mirrors scroll
+──────────────────────────────────────────────────────── */
+(function initScrollSpy() {
+  const sections = $$('section[id]');
+  const navLinks = $$('#nav-menu .nl');
+  if (!sections.length || !navLinks.length) return;
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const id = e.target.id;
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href') || '';
+        // Only update within-page links (hash anchors)
+        if (href === `#${id}`) {
+          navLinks.forEach(l => l.classList.remove('spy-active'));
+          link.classList.add('spy-active');
+        }
+      });
+    });
+  }, { threshold: 0.45 });
+
+  sections.forEach(s => obs.observe(s));
+})();
+
+/* ────────────────────────────────────────────────────────
+   SMOOTH IMAGE PARALLAX — fullbleed sections scroll depth
+──────────────────────────────────────────────────────── */
+(function initFullbleedParallax() {
+  if (!matchMedia('(prefers-reduced-motion:no-preference)').matches) return;
+  if (matchMedia('(max-width:768px)').matches) return; // Skip mobile
+
+  const sections = $$('.s-fullbleed');
+  if (!sections.length) return;
+
+  let ticking = false;
+  on(window, 'scroll', () => {
+    if (ticking) return;
+    requestAnimationFrame(() => {
+      sections.forEach(sec => {
+        const img = sec.querySelector('.fb-img');
+        if (!img) return;
+        const rect = sec.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > window.innerHeight * 1.2) return;
+        const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+        const offset   = (progress - 0.5) * 60; // ±30px travel
+        img.style.transform = `scale(1.06) translateY(${offset}px)`;
+      });
+      ticking = false;
+    });
+    ticking = true;
+  }, { passive: true });
+})();
+
+/* ────────────────────────────────────────────────────────
+   "4 AM" EASTER EGG — if visitor opens site between 4–5am
+──────────────────────────────────────────────────────── */
+(function initFourAmMoment() {
+  const hour = new Date().getHours();
+  if (hour !== 4) return;
+
+  // Add a special badge to the hero eyebrow
+  const eyebrow = document.querySelector('.hero-eyebrow span');
+  if (eyebrow) {
+    setTimeout(() => {
+      const badge = document.createElement('span');
+      badge.style.cssText = `
+        display:inline-flex; align-items:center; gap:.35rem;
+        background:rgba(253,185,39,.12); border:1px solid rgba(253,185,39,.3);
+        border-radius:100px; padding:.2rem .7rem;
+        font-family:var(--font-mono); font-size:.6rem;
+        letter-spacing:.12em; color:var(--gold);
+        margin-left:.75rem;
+        animation:fadeSlideUp .6s ease both;
+      `;
+      badge.textContent = '🌙 4 AM — Kobe\'s hour';
+      eyebrow.parentElement.appendChild(badge);
+      showToast('🌙 "Heroes come out at 4 AM." — Kobe Bryant', 5000);
+    }, 2500);
+  }
+})();
+
+/* ────────────────────────────────────────────────────────
+   TIMELINE HOVER — reveal extended content smoothly
+──────────────────────────────────────────────────────── */
+(function initTimelineHover() {
+  $$('.tl-item').forEach(item => {
+    const body = item.querySelector('.tl-body');
+    if (!body) return;
+    // The p tag gets a smooth max-height reveal
+    const p = body.querySelector('p');
+    if (p) {
+      p.style.cssText = `
+        overflow: hidden;
+        transition: max-height .45s cubic-bezier(.16,1,.3,1), opacity .35s ease;
+      `;
+    }
+  });
+})();
+
+/* ────────────────────────────────────────────────────────
+   MOBILE TOUCH — diptych tap to reveal caption
+──────────────────────────────────────────────────────── */
+(function initDiptychTouch() {
+  if (!matchMedia('(pointer:coarse)').matches) return;
+  $$('.dip-panel').forEach(panel => {
+    on(panel, 'click', () => {
+      const txt = panel.querySelector('.dip-text');
+      if (!txt) return;
+      const isOpen = panel.classList.toggle('dip-tapped');
+      txt.style.transform = isOpen ? 'translateY(0)' : '';
+      txt.style.transition = 'transform .4s cubic-bezier(.16,1,.3,1)';
+    });
+  });
+})();
+
+/* ────────────────────────────────────────────────────────
+   QUOTE ROTATOR SWIPE — mobile gesture support
+──────────────────────────────────────────────────────── */
+(function initQuoteSwipe() {
+  const rotator = document.getElementById('quote-rotator');
+  if (!rotator) return;
+  let startX = 0;
+  on(rotator, 'touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+  on(rotator, 'touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    if (Math.abs(dx) < 40) return;
+    const next = rotator.querySelector('.qr-next');
+    const prev = rotator.querySelector('.qr-prev');
+    if (dx < 0 && next) next.click();
+    if (dx > 0 && prev) prev.click();
+  });
+})();
+
+/* ────────────────────────────────────────────────────────
+   SECTION ENTRY GLOW — gold pulse on first reveal
+──────────────────────────────────────────────────────── */
+(function initSectionGlow() {
+  if (!matchMedia('(prefers-reduced-motion:no-preference)').matches) return;
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      // Brief gold shimmer on section eyebrow
+      const eyebrow = e.target.querySelector('.section-eyebrow');
+      if (eyebrow) {
+        eyebrow.style.textShadow = '0 0 20px rgba(253,185,39,.5)';
+        setTimeout(() => { eyebrow.style.textShadow = ''; eyebrow.style.transition = 'text-shadow .8s ease'; }, 800);
+      }
+      obs.unobserve(e.target);
+    });
+  }, { threshold: 0.3 });
+
+  $$('.s-stats, .s-mamba, .s-legacy, .s-tributes').forEach(el => obs.observe(el));
+})();
+
+/* ────────────────────────────────────────────────────────
+   ACCESSIBILITY — announce page regions to screen readers
+──────────────────────────────────────────────────────── */
+(function initLandmarks() {
+  // Ensure all major sections have proper roles
+  const main = document.getElementById('main');
+  if (main) main.setAttribute('role', 'main');
+
+  const nav = document.getElementById('nav');
+  if (nav) nav.setAttribute('role', 'navigation');
+
+  const footer = document.querySelector('.site-footer');
+  if (footer) footer.setAttribute('role', 'contentinfo');
+})();
+
+/* ────────────────────────────────────────────────────────
+   PRINT STYLESHEET — in case someone prints the page
+──────────────────────────────────────────────────────── */
+(function injectPrintStyles() {
+  if (document.getElementById('kb-print-css')) return;
+  const s = document.createElement('style');
+  s.id = 'kb-print-css';
+  s.setAttribute('media', 'print');
+  s.textContent = `
+    * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    #nav, .hero-ticker, .hero-scroll, #back-top,
+    #cur-dot, #cur-ring, #scroll-bar,
+    #ambient-btn, .btn-share-hero, [data-share],
+    .gc-expand { display:none !important; }
+    .s-hero { min-height: 60vh !important; }
+    .hero-content { padding-top: 2rem !important; }
+    body { background: #fff !important; color: #000 !important; }
+    .section-title, .hero-title { color: #000 !important; }
+    .section-title em, .ht-gold { color: #b8810a !important; }
+    .body-copy { color: #333 !important; }
+  `;
+  document.head.appendChild(s);
+})();
+
+/* ────────────────────────────────────────────────────────
+   FINAL CONSOLE SIGNATURE
+──────────────────────────────────────────────────────── */
+console.log(
+  '%c KOBE BEAN BRYANT %c\n%c#8 · #24 · Los Angeles Lakers · 1996–2016%c\n%cAwwwards-level tribute. Built with love.\n%cPress ? for keyboard shortcuts.',
+  'background:#552583;color:#FDB927;font-family:"Bebas Neue",sans-serif;font-size:22px;padding:6px 16px;border-radius:4px 0 0 4px;letter-spacing:3px;',
+  '',
+  'color:#FDB927;font-family:monospace;font-size:12px;letter-spacing:2px;padding:4px 0',
+  '',
+  'color:#888;font-family:monospace;font-size:11px;',
+  'color:#555;font-family:monospace;font-size:10px;'
+);

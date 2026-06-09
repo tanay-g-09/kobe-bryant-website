@@ -3248,3 +3248,392 @@ html.kt-entering main  { opacity:0; transform:translateY(18px); }
   #back-top,#nav,#kt-overlay { display:none !important; }
   body { color:#000; background:#fff; }
 }
+
+/* ══════════════════════════════════════════════════════════
+   PANEL REVIEW — FINAL POLISH ADDITIONS
+   Every class that was missing + every refinement identified
+   ══════════════════════════════════════════════════════════ */
+
+/* ── LOADER (ldr-content variant) ───────────────────────── */
+.ldr-content {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 1.5rem;
+  animation: ldrFadeIn .6s var(--ease-out) both;
+}
+@keyframes ldrFadeIn { from{opacity:0;transform:scale(.92)} to{opacity:1;transform:scale(1)} }
+
+/* ── HERO EYEBROW ────────────────────────────────────────── */
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 1rem;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeSlideUp .8s var(--ease-out) .3s both;
+}
+.heb-line {
+  display: block; width: 40px; height: 1px;
+  background: var(--gold); opacity: .6; flex-shrink: 0;
+}
+.hero-eyebrow span {
+  font-family: var(--font-mono);
+  font-size: .72rem; font-weight: 400;
+  letter-spacing: .18em; text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ── HERO TITLE ──────────────────────────────────────────── */
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 15vw, 14rem);
+  line-height: .88; letter-spacing: -.01em;
+  display: flex; flex-direction: column;
+  margin-bottom: 1.2rem;
+  overflow: hidden;
+}
+.ht-line {
+  display: block; color: var(--ink);
+  opacity: 0;
+  animation: heroSlide .9s var(--ease-expo) .4s both;
+}
+.ht-gold {
+  color: var(--gold);
+  animation-delay: .55s;
+}
+@keyframes heroSlide {
+  from { transform: translateY(110%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ── HERO SUB & TAGLINE ──────────────────────────────────── */
+.hero-sub {
+  font-family: var(--font-serif);
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  font-style: italic; font-weight: 300;
+  color: var(--ink-muted);
+  margin-bottom: .6rem;
+  opacity: 0;
+  animation: fadeSlideUp .8s var(--ease-out) .7s both;
+}
+
+/* ── STATS GLOW ──────────────────────────────────────────── */
+.stats-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%; height: 60%;
+  background: radial-gradient(ellipse, rgba(85,37,131,.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── STAT CARD HERO (the "81" card) ─────────────────────── */
+.stat-card-hero {
+  background: linear-gradient(160deg, rgba(85,37,131,.15), rgba(253,185,39,.05)) !important;
+  border: 1px solid var(--border-gold) !important;
+  position: relative;
+}
+.stat-card-hero::after {
+  content: 'RECORD';
+  position: absolute;
+  top: .75rem; right: .75rem;
+  font-family: var(--font-mono);
+  font-size: .55rem; letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--gold); opacity: .5;
+}
+
+/* ── STAT CARD PULSE RING ────────────────────────────────── */
+.sc-pulse {
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  border: 1px solid transparent;
+  pointer-events: none;
+  transition: border-color .3s;
+}
+.stat-card:hover .sc-pulse {
+  border-color: rgba(253,185,39,.18);
+  animation: pulsering 1.8s ease-in-out infinite;
+}
+@keyframes pulsering {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: .5; transform: scale(1.02); }
+}
+
+/* ── TIMELINE dot-wrap & year ────────────────────────────── */
+.tl-dot-wrap {
+  display: flex; justify-content: center;
+  padding-top: 8px; position: relative;
+}
+.tl-yr {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: .03em;
+  color: var(--ink-dim);
+  padding-top: 2px; text-align: right;
+  display: block;
+  transition: color .3s;
+}
+.tl-item:hover .tl-yr { color: var(--gold); }
+
+/* ── CONTACT INFO ────────────────────────────────────────── */
+.contact-info { }
+
+/* ── SUCCESS RING ANIMATIONS ─────────────────────────────── */
+.fs-ring { position: absolute; inset: 0; border-radius: 50%; animation: ringExpand 2s ease-out infinite; }
+.fs-ring-1 { border: 1.5px solid rgba(34,197,94,.3); }
+.fs-ring-2 { border: 1.5px solid rgba(34,197,94,.2); animation-delay: .7s; }
+@keyframes ringExpand { 0%{transform:scale(.7);opacity:.8} 100%{transform:scale(1.6);opacity:0} }
+
+/* ══════════════════════════════════════════════════════════
+   AWWWARDS PANEL — IDENTIFIED IMPROVEMENTS
+   ══════════════════════════════════════════════════════════ */
+
+/* ── 1. SECTION CHAPTER NUMBERS (Apple/Nike storytelling) ── */
+.chapter-num {
+  position: absolute;
+  top: clamp(2rem, 4vw, 4rem);
+  right: clamp(1.5rem, 4vw, 3rem);
+  font-family: var(--font-display);
+  font-size: clamp(6rem, 12vw, 10rem);
+  color: rgba(253,185,39,.04);
+  letter-spacing: -.04em;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* ── 2. READING PROGRESS BAR — gold line top ─────────────── */
+/* Already exists as #scroll-bar — refined colours in transition.js */
+
+/* ── 3. AMBIENT "4 AM" MOMENT — pulsing gold dot on timeline */
+.tl-item.tl-am-moment .tl-dot::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: rgba(253,185,39,.12);
+  animation: amPulse 2.2s ease-in-out infinite;
+}
+@keyframes amPulse {
+  0%,100% { transform: scale(1);   opacity: .7; }
+  50%      { transform: scale(1.6); opacity: 0; }
+}
+
+/* ── 4. HERO STATS BAR — bottom anchored data strip ─────── */
+.hero-stats-bar {
+  position: absolute;
+  bottom: clamp(28px, 5.5vh, 64px);
+  left: clamp(1.5rem, 5vw, 5rem);
+  z-index: 5;
+  display: flex; align-items: center; gap: clamp(1.5rem, 3vw, 3rem);
+  opacity: 0;
+  animation: fadeSlideUp .7s var(--ease-out) 1.1s both;
+}
+.hsb-item {
+  display: flex; flex-direction: column; gap: .2rem;
+}
+.hsb-num {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+  color: var(--gold); line-height: 1;
+  letter-spacing: .02em;
+}
+.hsb-label {
+  font-family: var(--font-mono);
+  font-size: clamp(.55rem, .8vw, .65rem);
+  letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.hsb-sep {
+  width: 1px; height: 36px;
+  background: rgba(255,255,255,.1);
+  flex-shrink: 0;
+}
+@media(max-width:640px) { .hero-stats-bar { display: none; } }
+
+/* ── 5. PULL-QUOTE WORD REVEAL (refined) ─────────────────── */
+.q-word {
+  display: inline-block;
+  opacity: 0; transform: translateY(8px);
+  transition: opacity .5s var(--ease-out), transform .5s var(--ease-out);
+  transition-delay: calc(var(--wi) * .04s);
+}
+blockquote.words-visible .q-word,
+.qr-slide.active blockquote .q-word { opacity: 1; transform: translateY(0); }
+
+/* ── 6. FULLBLEED TEXT — refined stagger timing ─────────── */
+.s-fullbleed.img-in-view .fbc-eyebrow { transition-delay: .05s; }
+.s-fullbleed.img-in-view .fbc-title   { transition-delay: .15s; }
+.s-fullbleed.img-in-view .fbc-sub     { transition-delay: .28s; }
+
+/* ── 7. SECTION DIVIDER — subtle gold rule ───────────────── */
+.section-rule {
+  width: clamp(40px, 5vw, 80px); height: 1px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  margin: 2rem 0; opacity: .5;
+}
+
+/* ── 8. BACK-TO-TOP — refined visibility ─────────────────── */
+#back-top {
+  box-shadow: 0 4px 20px rgba(253,185,39,.2);
+  transition: opacity .3s, transform .3s var(--ease-out),
+              background .2s, box-shadow .2s;
+}
+#back-top:hover { box-shadow: 0 8px 30px rgba(253,185,39,.35); }
+
+/* ── 9. NAV LOGO — refined active state ──────────────────── */
+.nav-logo:hover .nl-num { text-shadow: 0 0 20px rgba(253,185,39,.4); }
+
+/* ── 10. FOOTER — date memorial glow ────────────────────── */
+.footer-brand:hover .fb-num {
+  opacity: .7;
+  text-shadow: 0 0 30px rgba(253,185,39,.25);
+  transition: opacity .4s ease, text-shadow .4s ease;
+}
+
+/* ── 11. MOBILE HERO — tighter layout ───────────────────── */
+@media(max-width:480px) {
+  .hero-btns { flex-direction: column; align-items: flex-start; }
+  .btn-gold, .btn-outline { width: 100%; justify-content: center; }
+  .hero-tagline { font-size: .82rem; }
+  .hero-sub { font-size: 1.1rem; }
+  .hero-eyebrow span { font-size: .62rem; }
+}
+
+/* ── 12. SCROLL INDICATOR — refined on dark bg ───────────── */
+#scroll-bar {
+  background: linear-gradient(90deg, var(--purple), var(--gold)) !important;
+  height: 2px !important;
+}
+
+/* ── 13. STAT CARDS — click hint ────────────────────────── */
+.stat-card[data-fact] {
+  cursor: pointer;
+}
+.stat-card[data-fact]::before {
+  content: 'tap for insight';
+  position: absolute;
+  bottom: .6rem; left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: .55rem; letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity .25s;
+  pointer-events: none;
+}
+.stat-card[data-fact]:hover::before { opacity: 1; }
+
+/* ── 14. TIMELINE — connecting line refined ─────────────── */
+.tl-list::before {
+  background: linear-gradient(180deg,
+    transparent 0%,
+    var(--border) 5%,
+    var(--border) 95%,
+    transparent 100%
+  ) !important;
+}
+
+/* ── 15. MAMBA SECTION — background animation ───────────── */
+.mamba-canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none; opacity: .55;
+}
+
+/* ── 16. TRIBUTE CARD QUOTE ──────────────────────────────── */
+.trib-card:hover p { color: var(--ink); transition: color .35s ease; }
+
+/* ── 17. DIPTYCH — improved label size on mobile ────────── */
+@media(max-width:480px) {
+  .dip-label { font-size: 1.2rem !important; }
+  .dip-text  { padding: 1.25rem 1.25rem; }
+}
+
+/* ── 18. CTA BAND — "24" watermark ghost ─────────────────── */
+.s-cta .cta-inner::after {
+  content: '24';
+  position: absolute;
+  right: -2%; bottom: -10%;
+  font-family: var(--font-display);
+  font-size: clamp(8rem, 22vw, 18rem);
+  color: rgba(253,185,39,.04);
+  line-height: 1; letter-spacing: -.03em;
+  pointer-events: none;
+}
+.cta-inner { position: relative; overflow: hidden; }
+
+/* ── 19. INTRO IMAGE BADGE — entrance on scroll ─────────── */
+.intro-img-col.img-in-view .intro-img-badge {
+  opacity: 1 !important;
+  transform: translateX(0) !important;
+}
+
+/* ── 20. FOCUS STYLES — WCAG AA ─────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--gold) !important;
+  outline-offset: 3px !important;
+  border-radius: 2px;
+}
+button:focus-visible, a:focus-visible { border-radius: var(--r-sm); }
+
+/* ── 21. SELECTION COLOUR — on-brand ────────────────────── */
+::selection {
+  background: rgba(253,185,39,.22);
+  color: var(--ink);
+}
+
+/* ── 22. SCROLLBAR — styled ──────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb {
+  background: rgba(253,185,39,.25);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(253,185,39,.45); }
+
+/* ── 23. GALLERY — full-bleed on hover label ─────────────── */
+.s-gallery {
+  position: relative;
+  border-top: 1px solid var(--border);
+}
+.gallery-label {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  display: flex; flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+.gallery-label span {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 8vw, 7rem);
+  color: rgba(253,185,39,.06);
+  letter-spacing: .12em; line-height: 1.1;
+}
+
+/* ── 24. SMOOTH SECTION TRANSITIONS ──────────────────────── */
+section { transition: opacity .1s; }
+
+/* ── 25. HERO CONTENT — guaranteed readability ───────────── */
+.hero-content {
+  position: relative; z-index: 5;
+  padding: 0 clamp(1.5rem, 5vw, 5rem);
+  padding-top: calc(var(--nav-h) + clamp(3rem, 6vw, 6rem));
+  padding-bottom: clamp(6rem, 12vw, 10rem);
+  max-width: min(100%, 860px);
+}
+
+/* ── 26. BODY COPY LINE-HEIGHT ───────────────────────────── */
+.body-copy {
+  font-family: var(--font-mono);
+  font-size: clamp(.84rem, 1.2vw, .95rem);
+  font-weight: 300;
+  line-height: 1.85;
+  color: var(--ink-muted);
+  margin-bottom: 1.25rem;
+}
